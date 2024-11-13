@@ -1,7 +1,7 @@
-package ru.vsu.forum.viewmodels
+package ru.vsu.forum.ui.home
 
 import androidx.lifecycle.ViewModel
 
-class SearchViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

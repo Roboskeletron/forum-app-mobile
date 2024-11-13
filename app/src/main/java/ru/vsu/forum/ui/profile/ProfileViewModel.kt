@@ -1,4 +1,4 @@
-package ru.vsu.forum.viewmodels
+package ru.vsu.forum.ui.profile
 
 import androidx.lifecycle.ViewModel
 

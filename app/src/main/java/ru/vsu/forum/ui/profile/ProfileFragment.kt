@@ -1,4 +1,4 @@
-package ru.vsu.forum.fragments
+package ru.vsu.forum.ui.profile
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -7,15 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ru.vsu.forum.R
-import ru.vsu.forum.viewmodels.SearchViewModel
 
-class SearchFragment : Fragment() {
+class ProfileFragment : Fragment() {
 
     companion object {
-        fun newInstance() = SearchFragment()
+        fun newInstance() = ProfileFragment()
     }
 
-    private val viewModel: SearchViewModel by viewModels()
+    private val viewModel: ProfileViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +26,6 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 }
