@@ -16,4 +16,7 @@
     <string name="title_home">Home</string>
     <string name="title_search">Dashboard</string>
     <string name="title_profile">Notifications</string>
+    <string name="title_activity_test_nav">TestNavActivity</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
