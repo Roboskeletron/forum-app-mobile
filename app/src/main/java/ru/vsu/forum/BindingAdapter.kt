@@ -2,11 +2,10 @@ package ru.vsu.forum
 
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.databinding.BindingAdapter
 
 object BindingAdapter {
 
-    @BindingAdapter("selection_helper", "item_id", requireAll = true)
+//    @BindingAdapter("selection_helper", "item_id", requireAll = true)
     @JvmStatic
     fun <Message> handleSelection(
         view: View,

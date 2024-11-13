@@ -34,8 +34,8 @@ class MessageAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: Message) {
             binding.apply {
-                setVariable(BR.item, item)
-                setVariable(BR.selectionHelper, mSelectionHelper)
+//                setVariable(BR.item, item)
+//                setVariable(BR.selectionHelper, mSelectionHelper)
 
                 root.setOnClickListener {
                     mSelectionHelper?.handleItem(item)

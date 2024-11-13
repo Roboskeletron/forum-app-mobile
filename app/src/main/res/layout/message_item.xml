@@ -13,8 +13,8 @@
 
 <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:selection_helper="@{selectionHelper}">
+    android:layout_height="wrap_content">
+<!--    app:selection_helper="@{selectionHelper}"-->
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
