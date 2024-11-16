@@ -10,6 +10,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        app:topic_id="@{topic.id}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="0dp"
@@ -24,7 +25,6 @@
             android:padding="16dp">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -35,7 +35,6 @@
                 android:textColor="?attr/colorPrimary" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -46,7 +45,6 @@
                 android:textColor="?attr/colorOnSurface" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvUserCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
