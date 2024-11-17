@@ -60,7 +60,7 @@ class HomeFragment : Fragment() {
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.action_profile -> {
-                    findNavController().navigate(R.id.navigation_settings)
+                    findNavController().navigate(R.id.navigation_profile)
                     true
                 }
 

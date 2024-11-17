@@ -1,4 +1,4 @@
-package ru.vsu.forum.ui.settings
+package ru.vsu.forum.ui.profile
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import ru.vsu.forum.R
 
-class SettingsFragment : Fragment() {
+class ProfileFragment : Fragment() {
 
     companion object {
-        fun newInstance() = SettingsFragment()
+        fun newInstance() = ProfileFragment()
     }
 
-    private val viewModel: SettingsViewModel by viewModels()
+    private val viewModel: ProfileViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +26,6 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 }
