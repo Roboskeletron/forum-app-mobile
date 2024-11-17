@@ -25,8 +25,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:elevation="4dp"
                 app:title="Topics"
-                app:titleTextColor="@android:color/white"
-                app:menu="@menu/menu_home"/>
+                app:titleTextColor="@android:color/white"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 

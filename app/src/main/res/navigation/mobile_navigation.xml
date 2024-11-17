@@ -14,9 +14,4 @@
         android:name="ru.vsu.forum.ui.settings.SettingsFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_settings" />
-    <fragment
-        android:id="@+id/navigation_search"
-        android:name="ru.vsu.forum.ui.search.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
 </navigation>

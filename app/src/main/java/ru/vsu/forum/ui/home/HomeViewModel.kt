@@ -26,6 +26,15 @@ class HomeViewModel : ViewModel() {
         val sampleTopics = listOf(
             Topic(UUID.randomUUID(), "Discussion on Android Development", "A place to discuss Android best practices",10),
             Topic(UUID.randomUUID(), "Kotlin vs Java", "Comparison between Kotlin and Java", 20),
+            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
+            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
+            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
+            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
+            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
+            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
+            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
+            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
+            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
             Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500)
         )
         _topics.value = sampleTopics
