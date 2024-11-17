@@ -7,13 +7,11 @@ import ru.vsu.forum.databinding.TopicItemBinding
 import ru.vsu.forum.model.Topic
 
 class TopicAdapter(
-    private val topics: List<Topic>
+    private var topics: List<Topic>
 ) : RecyclerView.Adapter<TopicAdapter.TopicViewHolder>() {
 
-    inner class TopicViewHolder(
-        private val binding: TopicItemBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
+    inner class TopicViewHolder(private val binding: TopicItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(topic: Topic) {
             binding.topic = topic
             binding.executePendingBindings()
@@ -21,8 +19,11 @@ class TopicAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopicViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = TopicItemBinding.inflate(layoutInflater, parent, false)
+        val binding = TopicItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return TopicViewHolder(binding)
     }
 
@@ -31,4 +32,9 @@ class TopicAdapter(
     }
 
     override fun getItemCount(): Int = topics.size
+
+    fun updateData(newTopics: List<Topic>) {
+        topics = newTopics
+        notifyDataSetChanged()
+    }
 }

@@ -1,7 +1,7 @@
-package ru.vsu.forum.ui.profile
+package ru.vsu.forum.ui.settings
 
 import androidx.lifecycle.ViewModel
 
-class ProfileViewModel : ViewModel() {
+class SettingsViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

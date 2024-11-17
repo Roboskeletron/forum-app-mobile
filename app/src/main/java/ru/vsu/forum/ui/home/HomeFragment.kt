@@ -4,16 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.vsu.forum.R
 import ru.vsu.forum.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
-    companion object {
-        fun newInstance() = HomeFragment()
-    }
-
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -21,35 +19,58 @@ class HomeFragment : Fragment() {
 
     private lateinit var topicAdapter: TopicAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Инициализация RecyclerView
+        setupToolbar()
         setupRecyclerView()
-
-        // Наблюдение за списком топиков из ViewModel
-        viewModel.topics.observe(viewLifecycleOwner) { topics ->
-            topicAdapter = TopicAdapter(topics)
-            binding.rvTopics.adapter = topicAdapter
-        }
+        setupObservers()
     }
 
     private fun setupRecyclerView() {
-        binding.rvTopics.layoutManager = LinearLayoutManager(requireContext())
+        topicAdapter = TopicAdapter(emptyList())
+        binding.rvTopics.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = topicAdapter
+        }
+    }
+
+    private fun setupObservers() {
+        viewModel.filteredTopics.observe(viewLifecycleOwner) { topics ->
+            topicAdapter.updateData(topics)
+        }
+    }
+
+    private  fun setupToolbar(){
+        val toolbar = binding.toolbar
+
+        val menu = toolbar.menu
+
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
+
+        searchView.queryHint = "Search topics..."
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.setSearchQuery(newText ?: "")
+                return true
+            }
+        })
     }
 
     override fun onDestroyView() {

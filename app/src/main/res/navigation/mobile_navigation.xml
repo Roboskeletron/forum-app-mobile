@@ -10,10 +10,10 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/navigation_profile"
-        android:name="ru.vsu.forum.ui.profile.ProfileFragment"
+        android:id="@+id/navigation_settings"
+        android:name="ru.vsu.forum.ui.settings.SettingsFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/navigation_search"
         android:name="ru.vsu.forum.ui.search.SearchFragment"
