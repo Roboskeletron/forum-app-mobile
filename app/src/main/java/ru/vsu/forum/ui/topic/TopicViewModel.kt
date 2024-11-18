@@ -14,7 +14,7 @@ class TopicViewModel : ViewModel() {
 
     fun loadMessages(topicId: UUID) {
         _messages.value = listOf(
-            Message(UUID.randomUUID(), UUID.randomUUID(), "user1", null, "This is a message", LocalDateTime.now(), null, 10),
+            Message(UUID.randomUUID(), UUID.randomUUID(), "user1", null, "This is a message very long message u cant now anything about it", LocalDateTime.now(), null, 10),
             Message(UUID.randomUUID(), UUID.randomUUID(), "user2", null, "Another message", LocalDateTime.now().minusDays(1), LocalDateTime.now(), 5)
         )
     }

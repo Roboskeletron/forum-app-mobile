@@ -12,19 +12,21 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="0dp">
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
+        app:strokeColor="?attr/colorOutline"
+        app:strokeWidth="0dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="12dp">
+            android:padding="16dp">
 
             <!-- Аватар пользователя -->
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginEnd="12dp"
                 android:src="@drawable/ic_avatar_placeholder"
                 android:layout_gravity="left"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"/>
@@ -46,16 +48,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{message.userName}"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textStyle="bold" />
+                        style="@style/TextHeader2"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvMessageDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{message.updatedAt != null ? message.updatedAt.toString() : message.createdAt.toString()}"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="12sp" />
+                        android:text="@{message.updatedAt != null ? message.updatedAt.toLocalTime().toString() : message.createdAt.toLocalTime().toString()}"
+                        style="@style/TextTime" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <!-- Контент сообщения -->
@@ -65,8 +65,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@{message.content}"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="14sp" />
+                    style="@style/TextBody"
+                    android:ellipsize="end"/>
 
                 <!-- Нижняя часть: Лайки и кнопка для лайков -->
                 <androidx.appcompat.widget.LinearLayoutCompat
