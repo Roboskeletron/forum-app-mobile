@@ -8,6 +8,6 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
     <item
         android:id="@+id/action_profile"
-        android:icon="@drawable/profile_icon"
+        android:icon="@drawable/ic_avatar_placeholder"
         app:showAsAction="always" />
 </menu>

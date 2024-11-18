@@ -8,10 +8,27 @@
         android:id="@+id/navigation_home"
         android:name="ru.vsu.forum.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_topic"
+            app:destination="@id/navigation_topic" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_profile"
         android:name="ru.vsu.forum.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/navigation_topic"
+        android:name="ru.vsu.forum.ui.topic.TopicFragment"
+        android:label="fragment_topic"
+        tools:layout="@layout/fragment_topic">
+        <argument
+            android:name="topicId"
+            app:argType="string"
+            app:nullable="false"/>
+    </fragment>
+    <argument
+        android:name="topicId"
+        app:argType="string" />
 </navigation>

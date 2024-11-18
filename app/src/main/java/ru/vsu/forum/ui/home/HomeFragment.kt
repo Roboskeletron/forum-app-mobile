@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.vsu.forum.R
 import ru.vsu.forum.databinding.FragmentHomeBinding
+import java.util.UUID
 
 class HomeFragment : Fragment(), MenuProvider {
     private var _binding: FragmentHomeBinding? = null
@@ -48,7 +49,9 @@ class HomeFragment : Fragment(), MenuProvider {
     }
 
     private fun setupRecyclerView() {
-        topicAdapter = TopicAdapter(emptyList())
+        topicAdapter = TopicAdapter {
+            topicId -> navigateToTopicFragment(topicId)
+        }
         binding.rvTopics.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = topicAdapter
@@ -57,7 +60,7 @@ class HomeFragment : Fragment(), MenuProvider {
 
     private fun setupObservers() {
         viewModel.filteredTopics.observe(viewLifecycleOwner) { topics ->
-            topicAdapter.updateData(topics)
+            topicAdapter.submitList(topics)
         }
     }
 
@@ -77,6 +80,12 @@ class HomeFragment : Fragment(), MenuProvider {
                 return true
             }
         })
+    }
+
+    private fun navigateToTopicFragment(topicId: UUID) {
+        val action = HomeFragmentDirections
+            .actionNavigationHomeToNavigationTopic(topicId.toString())
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

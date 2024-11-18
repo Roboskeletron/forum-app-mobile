@@ -1,92 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
-            name="item"
-            type="ru.vsu.forum.Message" />
-        <variable
-            name="selectionHelper"
-            type="ru.vsu.forum.MessageSelectionHelper" />
-        <import type="ru.vsu.forum.BindingAdapter"/>
+            name="message"
+            type="ru.vsu.forum.model.Message" />
     </data>
 
-<androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-<!--    app:selection_helper="@{selectionHelper}"-->
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:padding="8dp"
-    android:gravity="center_vertical">
-
-    <ImageView
-        android:id="@+id/authorAvatarImageView"
-        android:src="@drawable/avatar_placeholder"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:scaleType="centerCrop" />
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:cardCornerRadius="0dp">
 
-        <TextView
-            android:id="@+id/authorNameTextView"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Author Name"
-            android:textStyle="bold"
-            android:textSize="16sp" />
+            android:orientation="horizontal"
+            android:padding="12dp">
 
-        <TextView
-            android:id="@+id/messageTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="This is a message text."
-            android:textSize="14sp"
-            android:layout_marginTop="4dp" />
+            <!-- Аватар пользователя -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_avatar_placeholder"
+                android:layout_gravity="left"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"/>
 
-        <TextView
-            android:id="@+id/messageDateTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Today, 12:00 PM"
-            android:textSize="12sp"
-            android:textColor="?android:attr/textColorSecondary"
-            android:layout_marginTop="2dp" />
-    </LinearLayout>
+            <!-- Верхняя часть: Аватар, Имя пользователя, Дата -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+                <!-- Имя пользователя и дата -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/likeCountTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10"
-            android:textSize="14sp" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{message.userName}"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/likeButton"
-            android:src="@drawable/like"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:scaleType="centerCrop"
-            android:layout_marginStart="4dp"
-            android:background="?attr/selectableItemBackground" />
-    </LinearLayout>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvMessageDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{message.updatedAt != null ? message.updatedAt.toString() : message.createdAt.toString()}"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="12sp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-</LinearLayout>
-</androidx.cardview.widget.CardView>
+                <!-- Контент сообщения -->
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvMessageContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@{message.content}"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="14sp" />
+
+                <!-- Нижняя часть: Лайки и кнопка для лайков -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvLikesCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(message.likes)}"
+                        android:textColor="?attr/colorPrimary"
+                        android:paddingEnd="2dp"/>
+
+                    <ImageButton
+                        android:id="@+id/btnLike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Like"
+                        android:src="@drawable/ic_like"
+                        app:tint="?attr/colorPrimary" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.card.MaterialCardView>
 </layout>
