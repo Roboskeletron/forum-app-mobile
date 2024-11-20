@@ -1,21 +1,46 @@
 package ru.vsu.forum.ui.topic
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.vsu.forum.model.Message
-import java.time.LocalDateTime
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import ru.vsu.forum.api.ForumApi
+import ru.vsu.forum.ui.home.MessagePagingSource
 import java.util.UUID
 
-class TopicViewModel : ViewModel() {
+class TopicViewModel(
+    private val forumApi: ForumApi,
+    private val topicId: UUID
+) : ViewModel() {
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery
 
-    private val _messages = MutableLiveData<List<Message>>()
-    val messages: LiveData<List<Message>> get() = _messages
+    val messagesFlow = searchQuery.flatMapLatest { query ->
+        Pager(
+            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+            pagingSourceFactory = { MessagePagingSource(forumApi, topicId, query) }
+        ).flow.cachedIn(viewModelScope)
+    }
 
-    fun loadMessages(topicId: UUID) {
-        _messages.value = listOf(
-            Message(UUID.randomUUID(), UUID.randomUUID(), "user1", null, "This is a message very long message u cant now anything about it", LocalDateTime.now(), null, 10),
-            Message(UUID.randomUUID(), UUID.randomUUID(), "user2", null, "Another message", LocalDateTime.now().minusDays(1), LocalDateTime.now(), 5)
-        )
+    fun setSearchQuery(query: String) {
+        _searchQuery.value = query
+    }
+}
+
+class TopicViewModelFactory(
+    private val forumApi: ForumApi,
+    private val topicId: UUID
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return if (modelClass.isAssignableFrom(TopicViewModel::class.java)) {
+            TopicViewModel(forumApi, topicId) as T
+        } else {
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 }

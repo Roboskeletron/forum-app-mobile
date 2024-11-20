@@ -5,12 +5,10 @@ import java.util.UUID
 
 data class Message(
     val id: UUID,
-    val userId: UUID,
-    val userName: String,
-    val userAvatar: String?,
-    val content: String,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime?,
-    val likes: Int
+    val author: Author,
+    val text: String,
+    val createdAt: String,
+    val updatedAt: String?,
+    val likeCount: Int
 )
 

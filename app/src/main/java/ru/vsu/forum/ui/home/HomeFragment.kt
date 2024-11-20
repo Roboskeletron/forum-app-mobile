@@ -10,19 +10,25 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.flow.collectLatest
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.forum.R
+import ru.vsu.forum.api.ForumApi
 import ru.vsu.forum.databinding.FragmentHomeBinding
+import ru.vsu.forum.utils.Config
 import java.util.UUID
 
 class HomeFragment : Fragment(), MenuProvider {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: HomeViewModel by viewModels()
+    private lateinit var viewModel: HomeViewModel
 
     private lateinit var topicAdapter: TopicAdapter
 
@@ -30,6 +36,14 @@ class HomeFragment : Fragment(), MenuProvider {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val forumApi = Retrofit.Builder()
+            .baseUrl(Config.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ForumApi::class.java)
+
+        viewModel = ViewModelProvider(this, HomeViewModelFactory(forumApi))[HomeViewModel::class.java]
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -37,6 +51,12 @@ class HomeFragment : Fragment(), MenuProvider {
         val menuHost = requireActivity()
 
         menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.topicsFlow.collectLatest { pagingData ->
+                topicAdapter.submitData(pagingData)
+            }
+        }
 
         return binding.root
     }
@@ -59,9 +79,6 @@ class HomeFragment : Fragment(), MenuProvider {
     }
 
     private fun setupObservers() {
-        viewModel.filteredTopics.observe(viewLifecycleOwner) { topics ->
-            topicAdapter.submitList(topics)
-        }
     }
 
     private fun setupSearchView(menu: Menu) {

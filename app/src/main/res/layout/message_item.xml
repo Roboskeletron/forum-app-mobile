@@ -47,14 +47,14 @@
                         android:id="@+id/tvUserName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{message.userName}"
+                        android:text="@{message.author.name}"
                         style="@style/TextHeader2"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvMessageDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{message.updatedAt != null ? message.updatedAt.toLocalTime().toString() : message.createdAt.toLocalTime().toString()}"
+                        android:text="@{message.updatedAt != null ? message.updatedAt : message.createdAt}"
                         style="@style/TextTime" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -64,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@{message.content}"
+                    android:text="@{message.text}"
                     style="@style/TextBody"
                     android:ellipsize="end"/>
 
@@ -80,7 +80,7 @@
                         android:id="@+id/tvLikesCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{String.valueOf(message.likes)}"
+                        android:text="@{String.valueOf(message.likeCount)}"
                         android:textColor="?attr/colorPrimary"
                         android:paddingEnd="2dp"/>
 

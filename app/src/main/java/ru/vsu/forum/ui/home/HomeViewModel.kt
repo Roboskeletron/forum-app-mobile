@@ -1,46 +1,40 @@
 package ru.vsu.forum.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
-import ru.vsu.forum.model.Topic
-import java.util.UUID
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import ru.vsu.forum.api.ForumApi
 
-class HomeViewModel : ViewModel() {
-    private val _topics = MutableLiveData<List<Topic>>()
-    private val _searchQuery = MutableLiveData("")
+class HomeViewModel(private val forumApi: ForumApi) : ViewModel() {
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery
 
-    val filteredTopics: LiveData<List<Topic>> = _searchQuery.map { query ->
-        _topics.value?.filter { topic ->
-            topic.title.contains(query, ignoreCase = true) ||
-                    topic.description.contains(query, ignoreCase = true)
-        } ?: emptyList()
-    }
-
-    init {
-        loadTopics()
-    }
-
-    private fun loadTopics() {
-        val sampleTopics = listOf(
-            Topic(UUID.randomUUID(), "Discussion on Android Development", "A place to discuss Android best practices",10),
-            Topic(UUID.randomUUID(), "Kotlin vs Java", "Comparison between Kotlin and Java", 20),
-            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
-            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
-            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
-            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
-            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
-            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
-            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
-            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
-            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500),
-            Topic(UUID.randomUUID(), "Jetpack Compose Basics", "Learn the basics of Jetpack Compose", 500)
-        )
-        _topics.value = sampleTopics
+    val topicsFlow = searchQuery.flatMapLatest { query ->
+        Pager(
+            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+            pagingSourceFactory = { TopicPagingSource(forumApi, query) }
+        ).flow.cachedIn(viewModelScope)
     }
 
     fun setSearchQuery(query: String) {
         _searchQuery.value = query
+    }
+}
+
+class HomeViewModelFactory(
+    private val forumApi: ForumApi
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+            HomeViewModel(forumApi) as T
+        } else {
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 }
