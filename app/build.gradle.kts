@@ -42,6 +42,9 @@ android {
 }
 
 dependencies {
+    implementation("net.openid:appauth:0.11.1")
+    implementation ("com.auth0.android:jwtdecode:2.0.0")
+
     ksp(libs.androidx.room.compiler)
 
     implementation(libs.androidx.navigation.fragment.ktx)

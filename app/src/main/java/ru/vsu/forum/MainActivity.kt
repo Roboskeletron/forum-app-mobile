@@ -2,13 +2,10 @@ package ru.vsu.forum
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import ru.vsu.forum.databinding.ActivityMainBinding
-import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
+import ru.vsu.forum.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
