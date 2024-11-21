@@ -16,10 +16,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.forum.R
 import ru.vsu.forum.api.ForumApi
+import ru.vsu.forum.data.model.SendMessageRequest
+import ru.vsu.forum.data.source.MessageRepository
 import ru.vsu.forum.databinding.FragmentTopicBinding
 import ru.vsu.forum.utils.Config
 import java.util.UUID
@@ -73,6 +76,7 @@ class TopicFragment : Fragment(), MenuProvider {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupObservers()
+        setupMessageSending()
     }
 
     private fun setupObservers() {
@@ -83,6 +87,17 @@ class TopicFragment : Fragment(), MenuProvider {
         binding.rvMessages.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = messageAdapter
+        }
+    }
+
+    private fun setupMessageSending(){
+        binding.sendButton.setOnClickListener {
+            val messageText = binding.messageInput.text.toString()
+            if (messageText.isBlank()) return@setOnClickListener
+
+            lifecycleScope.launch {
+                MessageRepository(viewModel.forumApi).sendMessage(viewModel.topicId, messageText)
+            }
         }
     }
 

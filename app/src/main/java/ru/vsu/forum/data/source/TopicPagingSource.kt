@@ -1,7 +1,6 @@
-package ru.vsu.forum.ui.home
+package ru.vsu.forum.data.source
 
 import androidx.paging.PagingSource
-import androidx.paging.PagingSource.LoadResult
 import androidx.paging.PagingState
 import ru.vsu.forum.api.ForumApi
 import ru.vsu.forum.model.PagedList
