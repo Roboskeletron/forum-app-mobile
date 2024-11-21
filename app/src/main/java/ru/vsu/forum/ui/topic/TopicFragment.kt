@@ -97,6 +97,10 @@ class TopicFragment : Fragment(), MenuProvider {
 
             lifecycleScope.launch {
                 MessageRepository(viewModel.forumApi).sendMessage(viewModel.topicId, messageText)
+                binding.messageInput.text?.clear()
+                viewModel.messagesFlow.collectLatest { pagingData ->
+                    messageAdapter.submitData(pagingData)
+                }
             }
         }
     }

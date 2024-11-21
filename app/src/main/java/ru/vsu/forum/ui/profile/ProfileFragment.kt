@@ -6,8 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.forum.R
+import ru.vsu.forum.api.ForumApi
+import ru.vsu.forum.data.source.UserRepository
 import ru.vsu.forum.databinding.FragmentProfileBinding
+import ru.vsu.forum.utils.Config
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
@@ -29,6 +36,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val forumApi = Retrofit.Builder()
+            .baseUrl(Config.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ForumApi::class.java)
+
+        lifecycleScope.launch {
+            val user = UserRepository(forumApi).getUserProfile()
+            viewModel.setUser(user.getOrThrow())
+        }
     }
 
     override fun onDestroyView() {

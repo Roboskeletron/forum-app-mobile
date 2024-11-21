@@ -11,6 +11,7 @@ import ru.vsu.forum.model.Message
 import ru.vsu.forum.model.PagedList
 import ru.vsu.forum.data.model.SendMessageRequest
 import ru.vsu.forum.model.Topic
+import ru.vsu.forum.model.User
 import java.util.UUID
 
 interface ForumApi {
@@ -35,4 +36,9 @@ interface ForumApi {
         @Body sendMessageRequest: SendMessageRequest,
         @Header("Authorization") token: String
     ): Response<UUID>
+
+    @GET("Users/profile")
+    suspend fun getProfile(
+        @Header("Authorization") token: String
+    ) : Response<User>
 }
