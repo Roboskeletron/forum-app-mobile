@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import ru.vsu.forum.api.ForumApi
+import ru.vsu.forum.data.source.TopicPagingSource
 
 class HomeViewModel(private val forumApi: ForumApi) : ViewModel() {
     private val _searchQuery = MutableStateFlow("")
