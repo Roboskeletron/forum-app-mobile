@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="topic"
             type="ru.vsu.forum.model.Topic" />
@@ -21,27 +21,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp">
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@{topic.title}"
-                android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textColor="?attr/colorPrimary" />
+                style="@style/TextHeader2" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:text="@{topic.description}"
-                android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="?attr/colorOnSurface" />
+                style="@style/TextBody"
+                android:visibility="@{!topic.description.empty ? View.GONE : View.VISIBLE}"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"

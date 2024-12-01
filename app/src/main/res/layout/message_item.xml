@@ -12,6 +12,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
         app:cardCornerRadius="0dp"
         app:cardElevation="0dp"
         app:strokeColor="?attr/colorOutline"
@@ -20,28 +22,25 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:orientation="horizontal">
 
-            <!-- Аватар пользователя -->
             <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@drawable/ic_avatar_placeholder"
-                android:layout_gravity="left"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"/>
 
-            <!-- Верхняя часть: Аватар, Имя пользователя, Дата -->
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginStart="12dp">
 
-                <!-- Имя пользователя и дата -->
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_gravity="start">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvUserName"
@@ -55,34 +54,32 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{message.updatedAt != null ? message.updatedAt : message.createdAt}"
+                        android:layout_marginStart="6dp"
                         style="@style/TextTime" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <!-- Контент сообщения -->
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvMessageContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="@{message.text}"
                     style="@style/TextBody"
                     android:ellipsize="end"/>
 
-                <!-- Нижняя часть: Лайки и кнопка для лайков -->
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:gravity="end"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvLikesCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{String.valueOf(message.likeCount)}"
-                        android:textColor="?attr/colorPrimary"
-                        android:paddingEnd="2dp"/>
+                        android:textColor="?attr/colorPrimary"/>
 
                     <ImageButton
                         android:id="@+id/btnLike"
