@@ -1,10 +1,11 @@
-package ru.vsu.forum
+package ru.vsu.forum.app
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import ru.vsu.forum.R
 import ru.vsu.forum.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
