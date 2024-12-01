@@ -91,13 +91,14 @@ class TopicFragment : Fragment(), MenuProvider {
     }
 
     private fun setupMessageSending(){
-        binding.sendButton.setOnClickListener {
-            val messageText = binding.messageInput.text.toString()
-            if (messageText.isBlank()) return@setOnClickListener
+        binding.textInputLayout.setEndIconOnClickListener {
+            val messageText = binding.messageTextInput.text.toString()
+
+            if (messageText.isBlank()) return@setEndIconOnClickListener
 
             lifecycleScope.launch {
                 MessageRepository(viewModel.forumApi).sendMessage(viewModel.topicId, messageText)
-                binding.messageInput.text?.clear()
+                binding.messageTextInput.text?.clear()
                 viewModel.messagesFlow.collectLatest { pagingData ->
                     messageAdapter.submitData(pagingData)
                 }
