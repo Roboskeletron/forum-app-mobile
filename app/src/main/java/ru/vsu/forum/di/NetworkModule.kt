@@ -23,7 +23,7 @@ fun provideHttpClient(): OkHttpClient = OkHttpClient
 fun provideConverterFactory(): GsonConverterFactory = GsonConverterFactory.create(
     GsonBuilder()
         .registerTypeAdapter(LocalDateTime::class.java, JsonDeserializer { json, _, _ ->
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+            val formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME
             LocalDateTime.parse(json.asString, formatter)
         })
         .create()
