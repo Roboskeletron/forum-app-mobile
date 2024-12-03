@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.forum.databinding.MessageItemBinding
-import ru.vsu.forum.model.Message
+import ru.vsu.forum.features.messages.models.Message
 
 class MessageAdapter() : PagingDataAdapter<Message, MessageAdapter.MessageViewHolder>(MessageDiffCallback()) {
 

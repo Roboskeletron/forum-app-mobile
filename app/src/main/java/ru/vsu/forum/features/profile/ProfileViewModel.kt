@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.vsu.forum.model.User
-import ru.vsu.forum.features.messages.view.TopicViewModel
 
 class ProfileViewModel() : ViewModel() {
     private var _userProfile = MutableLiveData<User?>(null)
@@ -19,7 +18,7 @@ class ProfileViewModel() : ViewModel() {
 class ProfileViewModelFactory(
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return if (modelClass.isAssignableFrom(TopicViewModel::class.java)) {
+        return if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
             ProfileViewModel() as T
         } else {
             throw IllegalArgumentException("Unknown ViewModel class")

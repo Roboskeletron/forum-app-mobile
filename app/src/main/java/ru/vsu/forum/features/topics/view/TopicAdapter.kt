@@ -9,7 +9,7 @@ import ru.vsu.forum.databinding.TopicItemBinding
 import ru.vsu.forum.features.topics.models.Topic
 import java.util.UUID
 
-class TopicAdapter(private val onTopicClick: (UUID) -> Unit) : PagingDataAdapter<Topic, TopicAdapter.TopicViewHolder>(TopicDiffCallback()) {
+class TopicAdapter(private val onTopicClick: (Topic) -> Unit) : PagingDataAdapter<Topic, TopicAdapter.TopicViewHolder>(TopicDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopicViewHolder {
         val binding = TopicItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -28,7 +28,7 @@ class TopicAdapter(private val onTopicClick: (UUID) -> Unit) : PagingDataAdapter
             binding.topic = topic
             binding.executePendingBindings()
             binding.root.setOnClickListener{
-                onTopicClick(topic.id)
+                onTopicClick(topic)
             }
         }
     }

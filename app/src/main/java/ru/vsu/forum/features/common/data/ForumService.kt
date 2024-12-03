@@ -7,7 +7,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
-import ru.vsu.forum.model.Message
+import ru.vsu.forum.features.messages.models.Message
 import ru.vsu.forum.features.common.models.PagedList
 import ru.vsu.forum.data.model.SendMessageRequest
 import ru.vsu.forum.features.topics.models.Topic
@@ -33,8 +33,7 @@ interface ForumService {
     @POST("Topics/{topicId}/messages")
     suspend fun sendMessage(
         @Path("topicId") topicId: UUID,
-        @Body sendMessageRequest: SendMessageRequest,
-        @Header("Authorization") token: String
+        @Body sendMessageRequest: SendMessageRequest
     ): Response<UUID>
 
     @GET("Users/profile")

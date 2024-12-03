@@ -27,8 +27,15 @@
             android:name="topicId"
             app:argType="string"
             app:nullable="false"/>
+        <argument
+            android:name="topicTitle"
+            app:argType="string"
+            app:nullable="false"/>
     </fragment>
     <argument
         android:name="topicId"
+        app:argType="string" />
+    <argument
+        android:name="topicTitle"
         app:argType="string" />
 </navigation>

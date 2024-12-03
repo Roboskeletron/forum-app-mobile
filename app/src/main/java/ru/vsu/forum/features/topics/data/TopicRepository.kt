@@ -16,7 +16,7 @@ class TopicRepositoryImpl(private val forumService: ForumService) : TopicReposit
     ): List<Topic> {
         try {
             val response = forumService.getTopics(pageIndex, pageSize, searchQuery)
-            return response.body()!!.items
+            return response.body()?.items ?: listOf()
         }
         catch (e: Exception){
             Log.e(TopicRepositoryImpl::class.qualifiedName, "Unable to get topics", e)

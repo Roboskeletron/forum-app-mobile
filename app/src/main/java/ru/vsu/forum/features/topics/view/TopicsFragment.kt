@@ -12,14 +12,13 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.vsu.forum.R
 import ru.vsu.forum.databinding.FragmentTopicsBinding
-import java.util.UUID
+import ru.vsu.forum.features.topics.models.Topic
 import kotlin.apply
 
 class TopicsFragment : Fragment(), MenuProvider {
@@ -49,8 +48,8 @@ class TopicsFragment : Fragment(), MenuProvider {
     }
 
     private fun setupRecyclerView() {
-        topicAdapter = TopicAdapter { topicId ->
-            navigateToTopicFragment(topicId)
+        topicAdapter = TopicAdapter { topic ->
+            navigateToTopicFragment(topic)
         }
 
         binding.rvTopics.apply {
@@ -82,9 +81,9 @@ class TopicsFragment : Fragment(), MenuProvider {
         })
     }
 
-    private fun navigateToTopicFragment(topicId: UUID) {
+    private fun navigateToTopicFragment(topic: Topic) {
         val action = TopicsFragmentDirections
-            .actionNavigationHomeToNavigationTopic(topicId.toString())
+            .actionNavigationHomeToNavigationTopic(topic.id.toString(), topic.title)
         findNavController().navigate(action)
     }
 

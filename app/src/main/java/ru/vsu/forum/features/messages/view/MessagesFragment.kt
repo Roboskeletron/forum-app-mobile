@@ -11,31 +11,32 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import ru.vsu.forum.R
-import ru.vsu.forum.data.source.MessageRepository
 import ru.vsu.forum.databinding.FragmentMessagesBinding
-import ru.vsu.forum.features.common.data.ForumService
-import ru.vsu.forum.utils.Config
+import ru.vsu.forum.features.messages.data.MessageRepository
 import java.util.UUID
 import kotlin.apply
-import kotlin.jvm.java
 import kotlin.text.isBlank
 import kotlin.toString
 
 class MessagesFragment : Fragment(), MenuProvider {
 
-    private var _binding: FragmentMessagesBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentMessagesBinding
 
-    private lateinit var viewModel: TopicViewModel
+    private val args: MessagesFragmentArgs by navArgs()
+
+    private val viewModel: MessagesViewModel by viewModel { parametersOf(UUID.fromString(args.topicId), args.topicTitle) }
+
+    private val messageRepository: MessageRepository by inject()
 
     private lateinit var messageAdapter: MessageAdapter
 
@@ -47,32 +48,11 @@ class MessagesFragment : Fragment(), MenuProvider {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val args = MessagesFragmentArgs.fromBundle(requireArguments())
-        val topicId = UUID.fromString(args.topicId)
-
-        val forumService = Retrofit.Builder()
-            .baseUrl(Config.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ForumService::class.java)
-
-        viewModel = ViewModelProvider.create(this,
-            TopicViewModelFactory(forumService, topicId)
-        )[TopicViewModel::class.java]
-
-        _binding = FragmentMessagesBinding.inflate(inflater, container, false)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding = FragmentMessagesBinding.inflate(inflater, container, false)
 
         val menuHost = requireActivity()
 
         menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.messagesFlow.collectLatest { pagingData ->
-                messageAdapter.submitData(pagingData)
-            }
-        }
 
         return binding.root
     }
@@ -80,11 +60,7 @@ class MessagesFragment : Fragment(), MenuProvider {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        setupObservers()
         setupMessageSending()
-    }
-
-    private fun setupObservers() {
     }
 
     private fun setupRecyclerView() {
@@ -92,6 +68,12 @@ class MessagesFragment : Fragment(), MenuProvider {
         binding.rvMessages.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = messageAdapter
+        }
+
+        lifecycleScope.launch {
+            viewModel.messagesFlow.collectLatest { pagingData ->
+                messageAdapter.submitData(pagingData)
+            }
         }
     }
 
@@ -102,7 +84,8 @@ class MessagesFragment : Fragment(), MenuProvider {
             if (messageText.isBlank()) return@setEndIconOnClickListener
 
             lifecycleScope.launch {
-                MessageRepository(viewModel.forumService).sendMessage(viewModel.topicId, messageText)
+                // TODO: handle exception 
+                messageRepository.sendMessage(viewModel.topicId, messageText)
                 binding.messageTextInput.text?.clear()
                 viewModel.messagesFlow.collectLatest { pagingData ->
                     messageAdapter.submitData(pagingData)
@@ -127,11 +110,6 @@ class MessagesFragment : Fragment(), MenuProvider {
                 return true
             }
         })
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

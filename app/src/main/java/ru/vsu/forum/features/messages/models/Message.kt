@@ -1,4 +1,4 @@
-package ru.vsu.forum.model
+package ru.vsu.forum.features.messages.models
 
 import java.time.LocalDateTime
 import java.util.UUID
