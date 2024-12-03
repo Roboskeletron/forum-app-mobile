@@ -1,4 +1,4 @@
-package ru.vsu.forum.ui.profile
+package ru.vsu.forum.features.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.forum.R
-import ru.vsu.forum.api.ForumApi
+import ru.vsu.forum.features.common.data.ForumService
 import ru.vsu.forum.data.source.UserRepository
 import ru.vsu.forum.databinding.FragmentProfileBinding
 import ru.vsu.forum.utils.Config
@@ -37,14 +37,14 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val forumApi = Retrofit.Builder()
+        val forumService = Retrofit.Builder()
             .baseUrl(Config.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(ForumApi::class.java)
+            .create(ForumService::class.java)
 
         lifecycleScope.launch {
-            val user = UserRepository(forumApi).getUserProfile()
+            val user = UserRepository(forumService).getUserProfile()
             viewModel.setUser(user.getOrThrow())
         }
     }

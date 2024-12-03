@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="ru.vsu.forum.ui.profile.ProfileViewModel" />
+            type="ru.vsu.forum.features.profile.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

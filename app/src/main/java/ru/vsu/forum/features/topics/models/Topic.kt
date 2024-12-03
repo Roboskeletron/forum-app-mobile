@@ -1,4 +1,4 @@
-package ru.vsu.forum.model
+package ru.vsu.forum.features.topics.models
 
 import java.util.UUID
 

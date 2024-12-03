@@ -1,4 +1,4 @@
-package ru.vsu.forum.api
+package ru.vsu.forum.features.common.data
 
 import retrofit2.Response
 import retrofit2.http.Body
@@ -8,13 +8,13 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.vsu.forum.model.Message
-import ru.vsu.forum.model.PagedList
+import ru.vsu.forum.features.common.models.PagedList
 import ru.vsu.forum.data.model.SendMessageRequest
-import ru.vsu.forum.model.Topic
+import ru.vsu.forum.features.topics.models.Topic
 import ru.vsu.forum.model.User
 import java.util.UUID
 
-interface ForumApi {
+interface ForumService {
     @GET("Topics")
     suspend fun getTopics(
         @Query("PageNumber") page: Int,

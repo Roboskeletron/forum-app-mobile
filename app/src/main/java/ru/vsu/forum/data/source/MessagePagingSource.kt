@@ -2,13 +2,13 @@ package ru.vsu.forum.data.source
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import ru.vsu.forum.api.ForumApi
-import ru.vsu.forum.model.PagedList
+import ru.vsu.forum.features.common.data.ForumService
+import ru.vsu.forum.features.common.models.PagedList
 import ru.vsu.forum.model.Message
 import java.util.UUID
 
 class MessagePagingSource(
-    private val forumApi: ForumApi,
+    private val forumService: ForumService,
     private val topicId: UUID,
     private val searchQuery: String
 ) : PagingSource<Int, Message>() {
@@ -16,7 +16,7 @@ class MessagePagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Message> {
         val page = params.key ?: 1
         return try {
-            val response = forumApi.getMessages(topicId, page, params.loadSize, searchQuery)
+            val response = forumService.getMessages(topicId, page, params.loadSize, searchQuery)
             if (response.isSuccessful) {
                 val messages = response.body() ?: PagedList(listOf(), 0)
                 LoadResult.Page(

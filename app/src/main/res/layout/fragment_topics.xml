@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".features.topics.view.TopicsFragment">
 
     <data>
         <variable
             name="viewModel"
-            type="ru.vsu.forum.ui.home.HomeViewModel" />
+            type="ru.vsu.forum.features.topics.view.TopicsViewModel" />
     </data>
 
     <LinearLayout

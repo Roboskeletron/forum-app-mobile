@@ -1,4 +1,4 @@
-package ru.vsu.forum.ui.home
+package ru.vsu.forum.features.topics.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.forum.databinding.TopicItemBinding
-import ru.vsu.forum.model.Topic
+import ru.vsu.forum.features.topics.models.Topic
 import java.util.UUID
 
 class TopicAdapter(private val onTopicClick: (UUID) -> Unit) : PagingDataAdapter<Topic, TopicAdapter.TopicViewHolder>(TopicDiffCallback()) {

@@ -6,23 +6,23 @@
     app:startDestination="@id/navigation_home">
     <fragment
         android:id="@+id/navigation_home"
-        android:name="ru.vsu.forum.ui.home.HomeFragment"
+        android:name="ru.vsu.forum.features.topics.view.TopicsFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_topics" >
         <action
             android:id="@+id/action_navigation_home_to_navigation_topic"
             app:destination="@id/navigation_topic" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="ru.vsu.forum.ui.profile.ProfileFragment"
+        android:name="ru.vsu.forum.features.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/navigation_topic"
-        android:name="ru.vsu.forum.ui.topic.TopicFragment"
+        android:name="ru.vsu.forum.features.messages.view.MessagesFragment"
         android:label="fragment_topic"
-        tools:layout="@layout/fragment_topic">
+        tools:layout="@layout/fragment_messages">
         <argument
             android:name="topicId"
             app:argType="string"

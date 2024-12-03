@@ -1,13 +1,11 @@
-package ru.vsu.forum.ui.profile
+package ru.vsu.forum.features.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ru.vsu.forum.api.ForumApi
 import ru.vsu.forum.model.User
-import ru.vsu.forum.ui.topic.TopicViewModel
-import java.util.UUID
+import ru.vsu.forum.features.messages.view.TopicViewModel
 
 class ProfileViewModel() : ViewModel() {
     private var _userProfile = MutableLiveData<User?>(null)

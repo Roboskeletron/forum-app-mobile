@@ -6,7 +6,7 @@
         <import type="android.view.View"/>
         <variable
             name="topic"
-            type="ru.vsu.forum.model.Topic" />
+            type="ru.vsu.forum.features.topics.models.Topic" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

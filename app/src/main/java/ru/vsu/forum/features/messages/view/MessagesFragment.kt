@@ -1,4 +1,4 @@
-package ru.vsu.forum.ui.home
+package ru.vsu.forum.features.messages.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,35 +16,51 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.forum.R
-import ru.vsu.forum.api.ForumApi
-import ru.vsu.forum.databinding.FragmentHomeBinding
+import ru.vsu.forum.data.source.MessageRepository
+import ru.vsu.forum.databinding.FragmentMessagesBinding
+import ru.vsu.forum.features.common.data.ForumService
 import ru.vsu.forum.utils.Config
 import java.util.UUID
+import kotlin.apply
+import kotlin.jvm.java
+import kotlin.text.isBlank
+import kotlin.toString
 
-class HomeFragment : Fragment(), MenuProvider {
-    private var _binding: FragmentHomeBinding? = null
+class MessagesFragment : Fragment(), MenuProvider {
+
+    private var _binding: FragmentMessagesBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: TopicViewModel
 
-    private lateinit var topicAdapter: TopicAdapter
+    private lateinit var messageAdapter: MessageAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val forumApi = Retrofit.Builder()
+        val args = MessagesFragmentArgs.fromBundle(requireArguments())
+        val topicId = UUID.fromString(args.topicId)
+
+        val forumService = Retrofit.Builder()
             .baseUrl(Config.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(ForumApi::class.java)
+            .create(ForumService::class.java)
 
-        viewModel = ViewModelProvider(this, HomeViewModelFactory(forumApi))[HomeViewModel::class.java]
+        viewModel = ViewModelProvider.create(this,
+            TopicViewModelFactory(forumService, topicId)
+        )[TopicViewModel::class.java]
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentMessagesBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -53,8 +69,8 @@ class HomeFragment : Fragment(), MenuProvider {
         menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         lifecycleScope.launchWhenStarted {
-            viewModel.topicsFlow.collectLatest { pagingData ->
-                topicAdapter.submitData(pagingData)
+            viewModel.messagesFlow.collectLatest { pagingData ->
+                messageAdapter.submitData(pagingData)
             }
         }
 
@@ -63,22 +79,36 @@ class HomeFragment : Fragment(), MenuProvider {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupRecyclerView()
         setupObservers()
-    }
-
-    private fun setupRecyclerView() {
-        topicAdapter = TopicAdapter {
-            topicId -> navigateToTopicFragment(topicId)
-        }
-        binding.rvTopics.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = topicAdapter
-        }
+        setupMessageSending()
     }
 
     private fun setupObservers() {
+    }
+
+    private fun setupRecyclerView() {
+        messageAdapter = MessageAdapter()
+        binding.rvMessages.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = messageAdapter
+        }
+    }
+
+    private fun setupMessageSending(){
+        binding.textInputLayout.setEndIconOnClickListener {
+            val messageText = binding.messageTextInput.text.toString()
+
+            if (messageText.isBlank()) return@setEndIconOnClickListener
+
+            lifecycleScope.launch {
+                MessageRepository(viewModel.forumService).sendMessage(viewModel.topicId, messageText)
+                binding.messageTextInput.text?.clear()
+                viewModel.messagesFlow.collectLatest { pagingData ->
+                    messageAdapter.submitData(pagingData)
+                }
+            }
+        }
     }
 
     private fun setupSearchView(menu: Menu) {
@@ -97,12 +127,6 @@ class HomeFragment : Fragment(), MenuProvider {
                 return true
             }
         })
-    }
-
-    private fun navigateToTopicFragment(topicId: UUID) {
-        val action = HomeFragmentDirections
-            .actionNavigationHomeToNavigationTopic(topicId.toString())
-        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

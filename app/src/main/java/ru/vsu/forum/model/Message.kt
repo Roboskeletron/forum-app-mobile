@@ -7,8 +7,8 @@ data class Message(
     val id: UUID,
     val author: Author,
     val text: String,
-    val createdAt: String,
-    val updatedAt: String?,
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime?,
     val likeCount: Int
 )
 

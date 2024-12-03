@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.topic.TopicFragment">
+    tools:context=".features.messages.view.MessagesFragment">
 
     <data>
 
         <variable
             name="viewModel"
-            type="ru.vsu.forum.ui.topic.TopicViewModel" />
+            type="ru.vsu.forum.features.messages.view.TopicViewModel" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat

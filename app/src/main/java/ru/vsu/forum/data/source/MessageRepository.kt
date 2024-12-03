@@ -1,11 +1,11 @@
 package ru.vsu.forum.data.source
 
-import ru.vsu.forum.api.ForumApi
+import ru.vsu.forum.features.common.data.ForumService
 import ru.vsu.forum.data.model.SendMessageRequest
 import ru.vsu.forum.utils.Config
 import java.util.UUID
 
-class MessageRepository(private val apiService: ForumApi) {
+class MessageRepository(private val apiService: ForumService) {
 
     suspend fun sendMessage(topicId: UUID, text: String): Result<UUID> {
         return try {

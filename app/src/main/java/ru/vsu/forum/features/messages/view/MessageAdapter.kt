@@ -1,4 +1,4 @@
-package ru.vsu.forum.ui.topic
+package ru.vsu.forum.features.messages.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

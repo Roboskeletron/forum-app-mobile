@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.vsu.forum.api.ForumApi
+import ru.vsu.forum.features.common.data.ForumService
 import ru.vsu.forum.data.interceptor.TokenInterceptor
 import ru.vsu.forum.utils.Config.BASE_URL
 import java.time.LocalDateTime
@@ -38,8 +38,8 @@ fun provideRetrofit(
     .addConverterFactory(gsonConverterFactory)
     .build()
 
-fun provideService(retrofit: Retrofit): ForumApi =
-    retrofit.create(ForumApi::class.java)
+fun provideService(retrofit: Retrofit): ForumService =
+    retrofit.create(ForumService::class.java)
 
 val networkModule = module {
     single { provideHttpClient() }

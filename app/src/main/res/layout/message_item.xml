@@ -53,7 +53,7 @@
                         android:id="@+id/tvMessageDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{message.updatedAt != null ? message.updatedAt : message.createdAt}"
+                        android:text="@{message.updatedAt != null ? message.updatedAt.toString() : message.createdAt.toString()}"
                         android:layout_marginStart="6dp"
                         style="@style/TextTime" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
