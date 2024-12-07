@@ -11,6 +11,7 @@ import ru.vsu.forum.data.interceptor.TokenInterceptor
 import ru.vsu.forum.utils.Config.BASE_URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.concurrent.TimeUnit
 
 fun provideHttpClient(): OkHttpClient = OkHttpClient
@@ -23,8 +24,12 @@ fun provideHttpClient(): OkHttpClient = OkHttpClient
 fun provideConverterFactory(): GsonConverterFactory = GsonConverterFactory.create(
     GsonBuilder()
         .registerTypeAdapter(LocalDateTime::class.java, JsonDeserializer { json, _, _ ->
-            val formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME
-            LocalDateTime.parse(json.asString, formatter)
+            try {
+                LocalDateTime.parse(json.asString, DateTimeFormatter.ISO_ZONED_DATE_TIME)
+            }
+            catch (e: DateTimeParseException){
+                null
+            }
         })
         .create()
 )
