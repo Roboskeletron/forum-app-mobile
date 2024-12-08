@@ -3,13 +3,12 @@ package ru.vsu.forum.features.common.data
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.vsu.forum.features.messages.models.Message
 import ru.vsu.forum.features.common.models.PagedList
-import ru.vsu.forum.data.model.SendMessageRequest
+import ru.vsu.forum.features.messages.models.SendMessageRequest
 import ru.vsu.forum.features.topics.models.Topic
 import ru.vsu.forum.model.User
 import java.util.UUID

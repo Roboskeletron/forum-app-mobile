@@ -1,10 +1,9 @@
 package ru.vsu.forum.features.messages.data
 
 import android.util.Log
-import ru.vsu.forum.data.model.SendMessageRequest
 import ru.vsu.forum.features.common.data.ForumService
 import ru.vsu.forum.features.messages.models.Message
-import ru.vsu.forum.utils.Config
+import ru.vsu.forum.features.messages.models.SendMessageRequest
 import java.util.UUID
 
 interface MessageRepository{
