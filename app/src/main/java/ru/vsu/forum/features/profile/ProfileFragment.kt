@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.vsu.forum.databinding.FragmentProfileBinding
+import ru.vsu.forum.R
 
 class ProfileFragment : Fragment() {
 
@@ -23,6 +24,8 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         val toolbar = binding.profileToolBar
         toolbar.setupWithNavController(findNavController())
+        toolbar.inflateMenu(R.menu.profile_menu)
+
 
         viewModel.userProfile.observe(viewLifecycleOwner) {
             binding.viewModel = viewModel
