@@ -5,6 +5,8 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import ru.vsu.forum.features.messages.data.MessageRepository
 import ru.vsu.forum.features.messages.data.MessageRepositoryImpl
+import ru.vsu.forum.features.profile.data.UserRepository
+import ru.vsu.forum.features.profile.data.UserRepositoryImpl
 import ru.vsu.forum.features.topics.data.TopicRepository
 import ru.vsu.forum.features.topics.data.TopicRepositoryImpl
 
@@ -13,4 +15,6 @@ val dataModule = module {
         .bind<TopicRepository>()
     singleOf(::MessageRepositoryImpl)
         .bind<MessageRepository>()
+    singleOf(::UserRepositoryImpl)
+        .bind<UserRepository>()
 }

@@ -3,25 +3,20 @@ package ru.vsu.forum.features.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import ru.vsu.forum.features.profile.data.UserRepository
 import ru.vsu.forum.model.User
+import java.util.UUID
 
-class ProfileViewModel() : ViewModel() {
+class ProfileViewModel(private val userRepository: UserRepository) : ViewModel() {
     private var _userProfile = MutableLiveData<User?>(null)
-    public val userProfile: LiveData<User?> = _userProfile
 
-    fun  setUser(user: User) {
-        _userProfile.value = user
-    }
-}
+    val userProfile: LiveData<User?> = _userProfile
 
-class ProfileViewModelFactory(
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
-            ProfileViewModel() as T
-        } else {
-            throw IllegalArgumentException("Unknown ViewModel class")
+    fun updateProfile(profileId: UUID? = null){
+        viewModelScope.launch{
+            _userProfile.value = userRepository.getUserProfile()
         }
     }
 }

@@ -37,7 +37,5 @@ interface ForumService {
     ): Response<UUID>
 
     @GET("Users/profile")
-    suspend fun getProfile(
-        @Header("Authorization") token: String
-    ) : Response<User>
+    suspend fun getProfile() : Response<User>
 }
