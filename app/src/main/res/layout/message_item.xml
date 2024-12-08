@@ -43,14 +43,12 @@
                     android:layout_gravity="start">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tvUserName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{message.author.name}"
                         style="@style/TextHeader2"/>
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tvMessageDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{message.updatedAt != null ? message.updatedAt.toString() : message.createdAt.toString()}"
@@ -59,7 +57,6 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvMessageContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -75,14 +72,12 @@
                     android:visibility="gone">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tvLikesCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{String.valueOf(message.likeCount)}"
                         android:textColor="?attr/colorPrimary"/>
 
                     <ImageButton
-                        android:id="@+id/btnLike"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackgroundBorderless"

@@ -11,39 +11,52 @@
             type="ru.vsu.forum.features.messages.view.MessagesViewModel" />
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMessages"
+            android:id="@+id/messages_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="65"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
+            android:id="@+id/messages_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:paddingBottom="12dp"
+            android:background="#FFFFFF"
             app:endIconDrawable="@drawable/ic_send"
             app:endIconMode="custom"
+            app:endIconScaleType="centerInside"
             app:startIconDrawable="@drawable/ic_send"
-            app:startIconScaleType="centerInside"
-            app:endIconScaleType="centerInside">
+            app:startIconScaleType="centerInside">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/messageTextInput"
+                android:id="@+id/messages_text_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Send message"
                 android:paddingHorizontal="56dp"
-                android:paddingVertical="12dp"
-                android:hint="Send message"/>
+                android:paddingVertical="12dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/messages_tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu="@menu/main_menu"
+                app:title="@{viewModel.topicTitle}"
+                app:layout_scrollFlags="scroll|enterAlways|snap" />
+        </com.google.android.material.appbar.AppBarLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

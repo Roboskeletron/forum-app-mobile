@@ -14,55 +14,68 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imgProfilePicture"
+            android:id="@+id/profile_picture_view"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="20dp"
             android:src="@drawable/ic_avatar_placeholder"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+            app:layout_constraintBottom_toBottomOf="@id/user_email_text_view"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/tvUserEmail"/>
+            app:layout_constraintTop_toBottomOf="@id/profile_app_bar_layout"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvUserName"
+            android:id="@+id/user_name_text_view"
+            style="@style/TextHeader2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.userProfile.name}"
-            style="@style/TextHeader2"
-            app:layout_constraintBottom_toTopOf="@+id/tvUserEmail"
-            app:layout_constraintLeft_toLeftOf="@id/imgProfilePicture"
-            app:layout_constraintTop_toBottomOf="@id/imgProfilePicture" />
+            app:layout_constraintBottom_toTopOf="@+id/user_email_text_view"
+            app:layout_constraintLeft_toLeftOf="@id/profile_picture_view"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture_view" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvUserEmail"
+            android:id="@+id/user_email_text_view"
+            style="@style/TextTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.userProfile.email}"
-            style="@style/TextTime"
-            app:layout_constraintLeft_toLeftOf="@id/tvUserName"
-            app:layout_constraintTop_toBottomOf="@id/tvUserName" />
+            app:layout_constraintLeft_toLeftOf="@id/user_name_text_view"
+            app:layout_constraintTop_toBottomOf="@id/user_name_text_view" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvUserDescription"
+            android:id="@+id/user_description_text_view"
+            style="@style/TextBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:padding="16dp"
             android:text="@{viewModel.userProfile.description}"
-            android:ellipsize="end"
-            style="@style/TextBody"
-            app:layout_constraintBottom_toTopOf="@id/logout"
-            app:layout_constraintTop_toTopOf="@id/imgProfilePicture" />
+            app:layout_constraintBottom_toTopOf="@id/logout_button"
+            app:layout_constraintTop_toTopOf="@id/profile_picture_view" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/logout"
+            android:id="@+id/logout_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Logout"
             android:layout_marginHorizontal="16dp"
+            android:text="Logout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/profile_app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/profile_tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="Profile" />
+        </com.google.android.material.appbar.AppBarLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

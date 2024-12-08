@@ -3,18 +3,14 @@ package ru.vsu.forum.features.messages.view
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.ui.setupWithNavController
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -28,7 +24,7 @@ import kotlin.apply
 import kotlin.text.isBlank
 import kotlin.toString
 
-class MessagesFragment : Fragment(), MenuProvider {
+class MessagesFragment : Fragment() {
 
     private lateinit var binding: FragmentMessagesBinding
 
@@ -49,24 +45,31 @@ class MessagesFragment : Fragment(), MenuProvider {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMessagesBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
 
-        val menuHost = requireActivity()
+        val toolbar = binding.messagesToolBar
+        toolbar.setupWithNavController(findNavController())
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId){
+                R.id.action_profile -> {
+                    findNavController().navigate(R.id.navigation_profile)
+                    true
+                }
 
-        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+                else -> false
+            }
+        }
+
+        setupSearchView(toolbar.menu)
+        setupMessageSending()
+        setupRecyclerView()
 
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        setupMessageSending()
-    }
-
     private fun setupRecyclerView() {
         messageAdapter = MessageAdapter()
-        binding.rvMessages.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+        binding.messagesRecyclerView.apply {
             adapter = messageAdapter
         }
 
@@ -78,15 +81,15 @@ class MessagesFragment : Fragment(), MenuProvider {
     }
 
     private fun setupMessageSending(){
-        binding.textInputLayout.setEndIconOnClickListener {
-            val messageText = binding.messageTextInput.text.toString()
+        binding.messagesTextInputLayout.setEndIconOnClickListener {
+            val messageText = binding.messagesTextInput.text.toString()
 
             if (messageText.isBlank()) return@setEndIconOnClickListener
 
             lifecycleScope.launch {
                 // TODO: handle exception 
                 messageRepository.sendMessage(viewModel.topicId, messageText)
-                binding.messageTextInput.text?.clear()
+                binding.messagesTextInput.text?.clear()
                 viewModel.messagesFlow.collectLatest { pagingData ->
                     messageAdapter.submitData(pagingData)
                 }
@@ -110,19 +113,5 @@ class MessagesFragment : Fragment(), MenuProvider {
                 return true
             }
         })
-    }
-
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        setupSearchView(menu)
-    }
-
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
-        R.id.action_profile -> {
-            findNavController().navigate(R.id.navigation_profile)
-            true
-        }
-
-        else -> false
     }
 }
