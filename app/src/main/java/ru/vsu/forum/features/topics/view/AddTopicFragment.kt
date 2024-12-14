@@ -7,13 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ru.vsu.forum.R
+import ru.vsu.forum.databinding.FragmentAddTopicBinding
 
 class AddTopicFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = AddTopicFragment()
-    }
-
+    private lateinit var binding: FragmentAddTopicBinding
     private val viewModel: AddTopicViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +23,9 @@ class AddTopicFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_add_topic, container, false)
+        binding = FragmentAddTopicBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
+
+        return binding.root
     }
 }
