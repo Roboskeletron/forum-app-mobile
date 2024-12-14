@@ -7,8 +7,8 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="ru.vsu.forum.features.topics.view.TopicsFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_topics" >
+        android:label="Topics"
+        tools:layout="@layout/fragment_topics">
         <action
             android:id="@+id/action_navigation_home_to_navigation_topic"
             app:destination="@id/navigation_topic" />
@@ -44,6 +44,6 @@
     <fragment
         android:id="@+id/addTopicFragment"
         android:name="ru.vsu.forum.features.topics.view.AddTopicFragment"
-        android:label="fragment_add_topic"
+        android:label="Create topic"
         tools:layout="@layout/fragment_add_topic" />
 </navigation>

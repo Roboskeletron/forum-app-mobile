@@ -34,7 +34,6 @@ class TopicsFragment : Fragment() {
         val toolbar = binding.topicsToolbar
 
         toolbar.setupWithNavController(findNavController())
-        toolbar.title = "Topics"
         toolbar.setOnMenuItemClickListener {
             when (it.itemId){
                 R.id.action_profile -> {

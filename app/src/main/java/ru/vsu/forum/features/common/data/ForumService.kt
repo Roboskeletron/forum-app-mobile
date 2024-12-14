@@ -9,6 +9,7 @@ import retrofit2.http.Query
 import ru.vsu.forum.features.messages.models.Message
 import ru.vsu.forum.features.common.models.PagedList
 import ru.vsu.forum.features.messages.models.SendMessageRequest
+import ru.vsu.forum.features.topics.models.CreateTopicModel
 import ru.vsu.forum.features.topics.models.Topic
 import ru.vsu.forum.model.User
 import java.util.UUID
@@ -37,4 +38,7 @@ interface ForumService {
 
     @GET("Users/profile")
     suspend fun getProfile() : Response<User>
+
+    @POST("Topics")
+    suspend fun createTopic(@Body createTopicModel: CreateTopicModel) : Response<UUID?>
 }

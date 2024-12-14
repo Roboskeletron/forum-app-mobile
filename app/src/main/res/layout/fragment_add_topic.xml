@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent">
             <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/add_topic_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:title="Create topic"
@@ -28,12 +29,14 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_topic_title_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
             android:layout_marginVertical="@dimen/activity_vertical_margin"
             app:counterEnabled="true"
-            app:counterMaxLength="25">
+            app:counterMaxLength="25"
+            app:errorEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
