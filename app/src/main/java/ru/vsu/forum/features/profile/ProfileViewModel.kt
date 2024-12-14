@@ -14,7 +14,7 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
 
     val userProfile: LiveData<User?> = _userProfile
 
-    fun updateProfile(profileId: UUID? = null){
+    fun getProfile(profileId: UUID? = null){
         viewModelScope.launch{
             _userProfile.value = userRepository.getUserProfile()
         }

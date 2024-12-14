@@ -24,14 +24,12 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         val toolbar = binding.profileToolBar
         toolbar.setupWithNavController(findNavController())
-        toolbar.inflateMenu(R.menu.profile_menu)
-
 
         viewModel.userProfile.observe(viewLifecycleOwner) {
             binding.viewModel = viewModel
         }
 
-        viewModel.updateProfile()
+        viewModel.getProfile()
         return binding.root
     }
 }
