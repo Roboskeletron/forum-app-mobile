@@ -46,6 +46,10 @@ class TopicsFragment : Fragment() {
         }
         setupSearchView(toolbar.menu)
 
+        binding.topicsAddTopicFab.setOnClickListener {
+            findNavController().navigate(TopicsFragmentDirections.actionNavigationHomeToAddTopicFragment())
+        }
+
         topicAdapter = TopicAdapter { topic ->
             navigateToTopicFragment(topic)
         }

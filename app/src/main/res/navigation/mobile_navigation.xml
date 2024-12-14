@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_topic"
             app:destination="@id/navigation_topic" />
+        <action
+            android:id="@+id/action_navigation_home_to_addTopicFragment"
+            app:destination="@id/addTopicFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile"
@@ -38,4 +41,9 @@
     <argument
         android:name="topicTitle"
         app:argType="string" />
+    <fragment
+        android:id="@+id/addTopicFragment"
+        android:name="ru.vsu.forum.features.topics.view.AddTopicFragment"
+        android:label="fragment_add_topic"
+        tools:layout="@layout/fragment_add_topic" />
 </navigation>
