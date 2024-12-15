@@ -8,20 +8,19 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import ru.vsu.forum.databinding.FragmentProfileBinding
-import ru.vsu.forum.R
+import ru.vsu.forum.databinding.FragmentEditProfileBinding
 
-class ProfileFragment : Fragment() {
+class EditProfileFragment : Fragment() {
 
-    private lateinit var binding: FragmentProfileBinding
-    private val viewModel: ProfileViewModel by viewModel()
+    private lateinit var binding: FragmentEditProfileBinding
+    private val viewModel: EditProfileViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentProfileBinding.inflate(inflater, container, false)
+        binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         val toolbar = binding.profileToolBar
         toolbar.setupWithNavController(findNavController())
 

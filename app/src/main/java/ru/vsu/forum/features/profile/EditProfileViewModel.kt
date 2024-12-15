@@ -9,7 +9,7 @@ import ru.vsu.forum.features.profile.data.UserRepository
 import ru.vsu.forum.model.User
 import java.util.UUID
 
-class ProfileViewModel(private val userRepository: UserRepository) : ViewModel() {
+class EditProfileViewModel(private val userRepository: UserRepository) : ViewModel() {
     private var _userProfile = MutableLiveData<User?>(null)
 
     val userProfile: LiveData<User?> = _userProfile

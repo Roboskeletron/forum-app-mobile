@@ -18,9 +18,9 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="ru.vsu.forum.features.profile.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        android:name="ru.vsu.forum.features.profile.EditProfileFragment"
+        android:label="Edit profile"
+        tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/navigation_topic"
         android:name="ru.vsu.forum.features.messages.view.MessagesFragment"
