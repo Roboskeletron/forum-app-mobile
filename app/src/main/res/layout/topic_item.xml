@@ -40,7 +40,7 @@
                 android:maxLines="3"
                 android:text="@{topic.description}"
                 style="@style/TextBody"
-                android:visibility="@{!topic.description.empty ? View.GONE : View.VISIBLE}"/>
+                android:visibility="@{topic.description.empty || topic.description == null ? View.GONE : View.VISIBLE}"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
