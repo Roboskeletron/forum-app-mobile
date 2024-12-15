@@ -15,35 +15,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/messages_recycler_view"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="65"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/messages_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/messages_text_input_layout"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/messages_text_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:paddingBottom="12dp"
-            android:background="#FFFFFF"
-            app:endIconDrawable="@drawable/ic_send"
-            app:endIconMode="custom"
-            app:endIconScaleType="centerInside"
-            app:startIconDrawable="@drawable/ic_send"
-            app:startIconScaleType="centerInside">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/messages_text_input"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/messages_text_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Send message"
-                android:paddingHorizontal="56dp"
-                android:paddingVertical="12dp" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="bottom"
+                android:paddingBottom="12dp"
+                app:endIconDrawable="@drawable/ic_send"
+                app:endIconMode="custom"
+                app:endIconScaleType="centerInside"
+                app:startIconDrawable="@drawable/ic_send"
+                app:startIconScaleType="centerInside"
+                app:layout_constraintTop_toBottomOf="@id/messages_recycler_view"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/messages_text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Send message"
+                    android:paddingHorizontal="56dp"
+                    android:paddingVertical="12dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -55,7 +61,7 @@
                 android:layout_height="wrap_content"
                 app:menu="@menu/main_menu"
                 app:title="@{viewModel.topicTitle}"
-                app:layout_scrollFlags="scroll|enterAlways|snap" />
+                app:layout_scrollFlags="enterAlways" />
         </com.google.android.material.appbar.AppBarLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
