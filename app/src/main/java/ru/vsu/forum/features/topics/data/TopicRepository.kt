@@ -9,6 +9,7 @@ import java.util.UUID
 interface TopicRepository {
     suspend fun getTopics(pageIndex: Int, pageSize: Int, searchQuery: String?) : List<Topic>
     suspend fun createTopic(title: String, description: String? = null) : UUID?
+    suspend fun isTitleUnique(title: String) : Boolean
 }
 
 class TopicRepositoryImpl(private val forumService: ForumService) : TopicRepository{
@@ -35,6 +36,17 @@ class TopicRepositoryImpl(private val forumService: ForumService) : TopicReposit
         catch (e: Exception){
             Log.e(TopicRepositoryImpl::class.qualifiedName, "Unable to create topic", e)
             return null
+        }
+    }
+
+    override suspend fun isTitleUnique(title: String): Boolean {
+        try {
+            val response = forumService.topicExistsByTitle(title)
+            return response.body() == true
+        }
+        catch (e: Exception){
+            Log.e(TopicRepositoryImpl::class.qualifiedName, "Unable to check topic existence by title", e)
+            return false
         }
     }
 }

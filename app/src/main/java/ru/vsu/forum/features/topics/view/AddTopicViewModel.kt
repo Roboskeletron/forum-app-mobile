@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class AddTopicViewModel : ViewModel() {
     private var _error = MutableLiveData<String?>(null)
 
-    var title: String? = null
+    var title = MutableLiveData<String?>(null)
     var description: String? = null
     val error: LiveData<String?> = _error
 

@@ -41,4 +41,7 @@ interface ForumService {
 
     @POST("Topics")
     suspend fun createTopic(@Body createTopicModel: CreateTopicModel) : Response<UUID?>
+
+    @GET("Topics/exists-by-title")
+    suspend fun topicExistsByTitle(@Query("title") title: String) : Response<Boolean>
 }

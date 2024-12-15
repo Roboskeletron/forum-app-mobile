@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="200dp"
-                android:hint="Description (optional)"
+                android:hint="Description"
                 android:text="@={viewModel.description}"
                 android:ellipsize="end"
                 android:maxLength="1000"

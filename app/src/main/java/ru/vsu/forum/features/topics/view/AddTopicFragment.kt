@@ -39,22 +39,37 @@ class AddTopicFragment : Fragment() {
             }
         }
 
-        viewModel.error.observe(viewLifecycleOwner){
+        viewModel.error.observe(viewLifecycleOwner) {
             binding.addTopicTitleInputLayout.error = it
+        }
+
+        viewModel.title.observe(viewLifecycleOwner) {
+            checkTopicTitle(it)
         }
 
         return binding.root
     }
 
     private  fun createTopic(){
-        if (viewModel.title.isNullOrEmpty()){
-            viewModel.setError("Title cant be empty")
+        if (viewModel.title.value.isNullOrEmpty()){
             return
         }
 
         lifecycleScope.launch {
             topicRepository.createTopic(viewModel.title.toString(), viewModel.description)
             findNavController().navigateUp()
+        }
+    }
+
+    private  fun checkTopicTitle(title: String?){
+        if (title.isNullOrEmpty()) {
+            viewModel.setError("Title cant be empty")
+            return
+        }
+
+        lifecycleScope.launch {
+            val error = if (!topicRepository.isTitleUnique(title)) "Title must be unique" else null
+            viewModel.setError(error)
         }
     }
 }
