@@ -4,10 +4,12 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.vsu.forum.features.messages.models.Message
 import ru.vsu.forum.features.common.models.PagedList
+import ru.vsu.forum.features.common.models.UpdateProfileModel
 import ru.vsu.forum.features.messages.models.SendMessageRequest
 import ru.vsu.forum.features.topics.models.CreateTopicModel
 import ru.vsu.forum.features.topics.models.Topic
@@ -44,4 +46,7 @@ interface ForumService {
 
     @GET("Topics/exists-by-title")
     suspend fun topicExistsByTitle(@Query("title") title: String) : Response<Boolean>
+
+    @PUT("Users/profile")
+    suspend fun updateProfile(@Body updateProfileModel: UpdateProfileModel) : Response<Unit>
 }
