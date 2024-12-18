@@ -49,4 +49,10 @@ interface ForumService {
 
     @PUT("Users/profile")
     suspend fun updateProfile(@Body updateProfileModel: UpdateProfileModel) : Response<Unit>
+
+    @GET("Users/profile/{id}")
+    suspend fun getUserById(@Path("id") id: UUID) : Response<User?>
+
+    @GET("Topics/{id}")
+    suspend fun getTopicById(@Path("id") id: UUID) : Response<Topic?>
 }

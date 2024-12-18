@@ -34,6 +34,9 @@
             android:name="topicTitle"
             app:argType="string"
             app:nullable="false"/>
+        <action
+            android:id="@+id/action_navigation_topic_to_topicInfoFragment"
+            app:destination="@id/topicInfoFragment" />
     </fragment>
     <argument
         android:name="topicId"
@@ -46,4 +49,12 @@
         android:name="ru.vsu.forum.features.topics.view.AddTopicFragment"
         android:label="Create topic"
         tools:layout="@layout/fragment_add_topic" />
+    <fragment
+        android:id="@+id/topicInfoFragment"
+        android:name="ru.vsu.forum.features.topics.view.TopicInfoFragment"
+        android:label="Topic info">
+        <argument
+            android:name="topicId"
+            app:argType="string" />
+    </fragment>
 </navigation>

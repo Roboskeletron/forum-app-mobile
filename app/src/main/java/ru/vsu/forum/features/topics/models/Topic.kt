@@ -6,5 +6,6 @@ data class Topic(
     val id: UUID,
     val title: String,
     val description: String?,
+    val authorId: UUID,
     val userCount: Int
 )

@@ -10,6 +10,7 @@ interface TopicRepository {
     suspend fun getTopics(pageIndex: Int, pageSize: Int, searchQuery: String?) : List<Topic>
     suspend fun createTopic(title: String, description: String? = null) : UUID?
     suspend fun isTitleUnique(title: String) : Boolean
+    suspend fun getById(id: UUID) : Topic?
 }
 
 class TopicRepositoryImpl(private val forumService: ForumService) : TopicRepository{
@@ -47,6 +48,17 @@ class TopicRepositoryImpl(private val forumService: ForumService) : TopicReposit
         catch (e: Exception){
             Log.e(TopicRepositoryImpl::class.qualifiedName, "Unable to check topic existence by title", e)
             return false
+        }
+    }
+
+    override suspend fun getById(id: UUID): Topic? {
+        try {
+            val response = forumService.getTopicById(id)
+            return  response.body()
+        }
+        catch (e: Exception) {
+            Log.e(TopicRepositoryImpl::class.qualifiedName, "Unable to get topic by id", e)
+            return null
         }
     }
 }

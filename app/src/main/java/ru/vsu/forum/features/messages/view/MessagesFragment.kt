@@ -59,6 +59,10 @@ class MessagesFragment : Fragment() {
                 else -> false
             }
         }
+        toolbar.setOnClickListener {
+            val action = MessagesFragmentDirections.actionNavigationTopicToTopicInfoFragment(viewModel.topicId.toString())
+            findNavController().navigate(action)
+        }
 
         setupSearchView(toolbar.menu)
         setupMessageSending()
