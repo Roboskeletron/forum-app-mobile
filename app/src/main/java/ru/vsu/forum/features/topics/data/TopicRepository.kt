@@ -4,6 +4,7 @@ import android.util.Log
 import ru.vsu.forum.features.common.data.ForumService
 import ru.vsu.forum.features.topics.models.CreateTopicModel
 import ru.vsu.forum.features.topics.models.Topic
+import ru.vsu.forum.features.topics.models.UpdateTopicModel
 import java.util.UUID
 
 interface TopicRepository {
@@ -11,6 +12,7 @@ interface TopicRepository {
     suspend fun createTopic(title: String, description: String? = null) : UUID?
     suspend fun isTitleUnique(title: String) : Boolean
     suspend fun getById(id: UUID) : Topic?
+    suspend fun updateTopic(id: UUID, title: String, description: String? = null)
 }
 
 class TopicRepositoryImpl(private val forumService: ForumService) : TopicRepository{
@@ -59,6 +61,15 @@ class TopicRepositoryImpl(private val forumService: ForumService) : TopicReposit
         catch (e: Exception) {
             Log.e(TopicRepositoryImpl::class.qualifiedName, "Unable to get topic by id", e)
             return null
+        }
+    }
+
+    override suspend fun updateTopic(id: UUID, title: String, description: String?) {
+        try {
+            forumService.updateTopic(id, UpdateTopicModel(title, description))
+        }
+        catch (e: Exception) {
+            Log.e(TopicRepositoryImpl::class.qualifiedName, "Unable to update topic", e)
         }
     }
 }

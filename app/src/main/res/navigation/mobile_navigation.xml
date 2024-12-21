@@ -56,5 +56,17 @@
         <argument
             android:name="topicId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_topicInfoFragment_to_editTopicFragment"
+            app:destination="@id/editTopicFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editTopicFragment"
+        android:name="ru.vsu.forum.features.topics.view.EditTopicFragment"
+        android:label="Edit topic"
+        tools:layout="@layout/fragment_edit_topic" >
+        <argument
+            android:name="topicId"
+            app:argType="string" />
     </fragment>
 </navigation>

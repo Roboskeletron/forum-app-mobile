@@ -9,7 +9,8 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.vsu.forum.features.messages.models.Message
 import ru.vsu.forum.features.common.models.PagedList
-import ru.vsu.forum.features.common.models.UpdateProfileModel
+import ru.vsu.forum.features.profile.models.UpdateProfileModel
+import ru.vsu.forum.features.topics.models.UpdateTopicModel
 import ru.vsu.forum.features.messages.models.SendMessageRequest
 import ru.vsu.forum.features.topics.models.CreateTopicModel
 import ru.vsu.forum.features.topics.models.Topic
@@ -55,4 +56,7 @@ interface ForumService {
 
     @GET("Topics/{id}")
     suspend fun getTopicById(@Path("id") id: UUID) : Response<Topic?>
+
+    @PUT("Topics/{id}")
+    suspend fun updateTopic(@Path("id") id: UUID, @Body updateTopicModel: UpdateTopicModel) : Response<Unit>
 }

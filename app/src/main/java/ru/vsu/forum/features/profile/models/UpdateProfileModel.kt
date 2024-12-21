@@ -1,4 +1,4 @@
-package ru.vsu.forum.features.common.models
+package ru.vsu.forum.features.profile.models
 
 data class UpdateProfileModel(
     val name: String,

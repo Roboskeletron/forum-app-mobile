@@ -2,7 +2,7 @@ package ru.vsu.forum.features.profile.data
 
 import android.util.Log
 import ru.vsu.forum.features.common.data.ForumService
-import ru.vsu.forum.features.common.models.UpdateProfileModel
+import ru.vsu.forum.features.profile.models.UpdateProfileModel
 import ru.vsu.forum.model.User
 import java.util.UUID
 

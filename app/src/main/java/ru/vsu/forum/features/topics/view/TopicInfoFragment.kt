@@ -36,6 +36,11 @@ class TopicInfoFragment : Fragment() {
         val toolbar = binding.topicInfoToolbar
         toolbar.setupWithNavController(findNavController())
 
+        binding.topicInfoEditFloatingButton.setOnClickListener {
+            val action = TopicInfoFragmentDirections.actionTopicInfoFragmentToEditTopicFragment(args.topicId)
+            findNavController().navigate(action)
+        }
+
         lifecycleScope.launch {
 
             val topic = topicRepository.getById(UUID.fromString(args.topicId))
