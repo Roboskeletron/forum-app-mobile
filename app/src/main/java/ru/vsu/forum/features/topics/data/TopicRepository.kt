@@ -45,7 +45,7 @@ class TopicRepositoryImpl(private val forumService: ForumService) : TopicReposit
     override suspend fun isTitleUnique(title: String): Boolean {
         try {
             val response = forumService.topicExistsByTitle(title)
-            return response.body() == true
+            return !response.body()!!
         }
         catch (e: Exception){
             Log.e(TopicRepositoryImpl::class.qualifiedName, "Unable to check topic existence by title", e)

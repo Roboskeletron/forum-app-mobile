@@ -70,7 +70,7 @@ class EditTopicFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            val isTitleUnique = topicRepository.isTitleUnique(title)
+            val isTitleUnique = topicRepository.isTitleUnique(title.trim())
 
             val error = if (isTitleUnique || title == topic.title) null else "Title must be unique"
             viewModel.setError(error)
@@ -83,7 +83,7 @@ class EditTopicFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            topicRepository.updateTopic(topic.id, viewModel.title.value!!, viewModel.description.value)
+            topicRepository.updateTopic(topic.id, viewModel.title.value!!.trim(), viewModel.description.value)
             findNavController().navigateUp()
         }
     }
