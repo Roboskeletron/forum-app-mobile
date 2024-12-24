@@ -80,7 +80,8 @@
             android:layout_margin="40dp"
             app:srcCompat="@drawable/ic_edit"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="@{viewModel.canEdit ? View.VISIBLE : View.GONE}"/>
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/topic_info_app_bar_layout"

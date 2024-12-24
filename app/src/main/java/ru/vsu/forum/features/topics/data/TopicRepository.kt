@@ -66,7 +66,7 @@ class TopicRepositoryImpl(private val forumService: ForumService) : TopicReposit
 
     override suspend fun updateTopic(id: UUID, title: String, description: String?) {
         try {
-            forumService.updateTopic(id, UpdateTopicModel(title, description))
+            forumService.updateTopic(id, UpdateTopicModel(id, title, description))
         }
         catch (e: Exception) {
             Log.e(TopicRepositoryImpl::class.qualifiedName, "Unable to update topic", e)

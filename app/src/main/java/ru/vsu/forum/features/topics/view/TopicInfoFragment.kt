@@ -42,7 +42,7 @@ class TopicInfoFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-
+            val profile = userRepository.getUserProfile()
             val topic = topicRepository.getById(UUID.fromString(args.topicId))
 
             if (topic == null) {
@@ -61,6 +61,7 @@ class TopicInfoFragment : Fragment() {
 
             viewModel.topic.value = topic
             viewModel.author.value = author
+            viewModel.canEdit.value = profile?.id == author.id
         }
 
         return binding.root
