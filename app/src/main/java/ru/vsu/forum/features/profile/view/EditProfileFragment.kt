@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.vsu.forum.databinding.FragmentEditProfileBinding
+import ru.vsu.forum.features.auth.domain.UserProvider
 import ru.vsu.forum.features.profile.data.UserRepository
 import kotlin.text.isNullOrEmpty
 import kotlin.toString
@@ -21,6 +22,7 @@ class EditProfileFragment : Fragment() {
     private lateinit var binding: FragmentEditProfileBinding
     private val viewModel: EditProfileViewModel by viewModel()
     private val userRepository: UserRepository by inject()
+    private val userProvider: UserProvider by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,10 +48,14 @@ class EditProfileFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
-            val profile = userRepository.getUserProfile()
-            viewModel.setProfile(profile)
+        binding.profileLogoutButton.setOnClickListener {
+            lifecycleScope.launch {
+                userProvider.logout()
+                findNavController().navigateUp()
+            }
         }
+
+        viewModel.setProfile(userProvider.user)
 
         return binding.root
     }

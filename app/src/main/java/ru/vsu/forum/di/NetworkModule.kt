@@ -7,8 +7,9 @@ import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.vsu.forum.data.interceptor.TokenInterceptor
+import ru.vsu.forum.features.auth.data.AuthInterceptor
 import ru.vsu.forum.features.auth.data.Keycloak
+import ru.vsu.forum.features.auth.domain.AuthManager
 import ru.vsu.forum.features.common.data.ForumService
 import ru.vsu.forum.utils.Config
 import ru.vsu.forum.utils.Config.BASE_URL
@@ -17,11 +18,12 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.concurrent.TimeUnit
 
-fun provideHttpClient(): OkHttpClient = OkHttpClient
+fun provideHttpClient(authManager: AuthManager): OkHttpClient = OkHttpClient
     .Builder()
     .readTimeout(60, TimeUnit.SECONDS)
     .connectTimeout(60, TimeUnit.SECONDS)
-    .addInterceptor(TokenInterceptor())
+    .addNetworkInterceptor(AuthInterceptor(authManager))
+    .authenticator(AuthInterceptor(authManager))
     .build()
 
 fun provideConverterFactory(): GsonConverterFactory = GsonConverterFactory.create(
@@ -71,7 +73,7 @@ fun provideKeycloakService() : Keycloak =
     provideKeycloakRetrofit().create(Keycloak::class.java)
 
 val networkModule = module {
-    single { provideHttpClient() }
+    single { provideHttpClient(get()) }
     single { provideConverterFactory() }
     single { provideRetrofit(get(), get()) }
     single { provideService(get()) }
