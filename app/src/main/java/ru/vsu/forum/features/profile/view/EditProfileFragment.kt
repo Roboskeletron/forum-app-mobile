@@ -1,4 +1,4 @@
-package ru.vsu.forum.features.profile
+package ru.vsu.forum.features.profile.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +13,8 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.vsu.forum.databinding.FragmentEditProfileBinding
 import ru.vsu.forum.features.profile.data.UserRepository
+import kotlin.text.isNullOrEmpty
+import kotlin.toString
 
 class EditProfileFragment : Fragment() {
 

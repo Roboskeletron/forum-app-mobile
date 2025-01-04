@@ -1,11 +1,8 @@
-package ru.vsu.forum.features.profile
+package ru.vsu.forum.features.profile.view
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
-import ru.vsu.forum.features.profile.data.UserRepository
 import ru.vsu.forum.model.User
 import java.util.UUID
 
