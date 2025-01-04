@@ -10,12 +10,12 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.vsu.forum.databinding.FragmentLoginBinding
-import ru.vsu.forum.features.profile.data.UserRepository
+import ru.vsu.forum.features.auth.domain.UserProvider
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModel()
-    private val userRepository: UserRepository by inject()
+    private val userProvider: UserProvider by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +46,12 @@ class LoginFragment : Fragment() {
 
         if (passwordError != null || usernameError != null) {
             return
+        }
+
+        lifecycleScope.launch {
+            if (!userProvider.tryLogin(viewModel.username.value!!, viewModel.password.value!!)) {
+                viewModel.showLoginError()
+            }
         }
     }
 }

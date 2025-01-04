@@ -1,13 +1,16 @@
 package ru.vsu.forum.di
 
+import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.vsu.forum.features.common.data.ForumService
 import ru.vsu.forum.data.interceptor.TokenInterceptor
+import ru.vsu.forum.features.auth.data.Keycloak
+import ru.vsu.forum.features.common.data.ForumService
+import ru.vsu.forum.utils.Config
 import ru.vsu.forum.utils.Config.BASE_URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -46,9 +49,31 @@ fun provideRetrofit(
 fun provideService(retrofit: Retrofit): ForumService =
     retrofit.create(ForumService::class.java)
 
+fun provideKeycloakHttpClient(): OkHttpClient = OkHttpClient
+    .Builder()
+    .readTimeout(60, TimeUnit.SECONDS)
+    .connectTimeout(60, TimeUnit.SECONDS)
+    .build()
+
+fun provideKeycloakConverterFactory(): GsonConverterFactory = GsonConverterFactory.create(
+    GsonBuilder()
+        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        .create()
+)
+
+fun provideKeycloakRetrofit(): Retrofit = Retrofit.Builder()
+    .baseUrl(Config.KEYCLOAK_BASE_URL)
+    .client(provideKeycloakHttpClient())
+    .addConverterFactory(provideKeycloakConverterFactory())
+    .build()
+
+fun provideKeycloakService() : Keycloak =
+    provideKeycloakRetrofit().create(Keycloak::class.java)
+
 val networkModule = module {
     single { provideHttpClient() }
     single { provideConverterFactory() }
     single { provideRetrofit(get(), get()) }
     single { provideService(get()) }
+    single { provideKeycloakService() }
 }
