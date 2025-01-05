@@ -14,6 +14,7 @@ import ru.vsu.forum.features.topics.models.UpdateTopicModel
 import ru.vsu.forum.features.messages.models.SendMessageRequest
 import ru.vsu.forum.features.topics.models.CreateTopicModel
 import ru.vsu.forum.features.topics.models.Topic
+import ru.vsu.forum.model.RegisterUserModel
 import ru.vsu.forum.model.User
 import java.util.UUID
 
@@ -59,4 +60,13 @@ interface ForumService {
 
     @PUT("Topics/{id}")
     suspend fun updateTopic(@Path("id") id: UUID, @Body updateTopicModel: UpdateTopicModel) : Response<Unit>
+
+    @GET("Users/exists-by-email")
+    suspend fun userExistsByEmail(@Query("email") email: String) : Response<Boolean>
+
+    @GET("Users/exists-by-username")
+    suspend fun userExistsByUsername(@Query("username") username: String) : Response<Boolean>
+
+    @POST("Users")
+    suspend fun registerUser(@Body registerUserModel: RegisterUserModel) : Response<UInt>
 }

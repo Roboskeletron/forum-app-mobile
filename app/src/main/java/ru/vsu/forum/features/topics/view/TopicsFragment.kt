@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.vsu.forum.R
 import ru.vsu.forum.databinding.FragmentTopicsBinding
-import ru.vsu.forum.features.messages.view.MessagesFragmentDirections
 import ru.vsu.forum.features.topics.models.Topic
 import kotlin.apply
 
