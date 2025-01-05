@@ -5,6 +5,7 @@ import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
@@ -22,6 +23,7 @@ import ru.vsu.forum.R
 import ru.vsu.forum.databinding.FragmentMessagesBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
 import ru.vsu.forum.features.messages.data.MessageRepository
+import ru.vsu.forum.features.messages.models.Message
 import java.util.UUID
 import kotlin.apply
 
@@ -38,6 +40,10 @@ class MessagesFragment : Fragment() {
     private val userProvider: UserProvider by inject()
 
     private lateinit var messageAdapter: MessageAdapter
+
+    private var sendMessageStrategy: suspend () -> Unit = {
+        messageRepository.sendMessage(viewModel.topicId, viewModel.message.value!!)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,11 +96,15 @@ class MessagesFragment : Fragment() {
             if (messageText.isNullOrBlank()) return@setEndIconOnClickListener
 
             lifecycleScope.launch {
-                messageRepository.sendMessage(viewModel.topicId, messageText)
+                sendMessageStrategy()
                 binding.messagesTextInput.text?.clear()
                 viewModel.messagesFlow.collectLatest { pagingData ->
                     messageAdapter.submitData(pagingData)
                 }
+            }
+
+            sendMessageStrategy = {
+                messageRepository.sendMessage(viewModel.topicId, viewModel.message.value!!)
             }
         }
 
@@ -121,7 +131,6 @@ class MessagesFragment : Fragment() {
         })
     }
 
-
     override fun onCreateContextMenu(
         menu: ContextMenu,
         v: View,
@@ -130,5 +139,40 @@ class MessagesFragment : Fragment() {
         super.onCreateContextMenu(menu, v, menuInfo)
         val inflater: MenuInflater = MenuInflater(v.context)
         inflater.inflate(R.menu.message_context_menu, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val selectedMessage = messageAdapter.getSelectedMessage() ?: return super.onContextItemSelected(item)
+
+        return when (item.itemId) {
+            R.id.action_edit -> {
+                editMessage(selectedMessage)
+                true
+            }
+
+            R.id.action_delete -> {
+                deleteMessage(selectedMessage)
+                true
+            }
+
+            else -> super.onContextItemSelected(item)
+        }
+    }
+
+    private fun editMessage(message: Message) {
+        sendMessageStrategy = {
+            messageRepository.updateMessage(message.id, viewModel.message.value!!)
+        }
+
+        binding.messagesTextInput.setText(message.text)
+    }
+
+    private fun deleteMessage(message: Message) {
+        lifecycleScope.launch {
+            messageRepository.deleteMessage(message.id)
+            viewModel.messagesFlow.collectLatest { pagingData ->
+                messageAdapter.submitData(pagingData)
+            }
+        }
     }
 }

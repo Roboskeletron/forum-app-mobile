@@ -2,7 +2,9 @@ package ru.vsu.forum.features.common.data
 
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -11,7 +13,8 @@ import ru.vsu.forum.features.messages.models.Message
 import ru.vsu.forum.features.common.models.PagedList
 import ru.vsu.forum.features.profile.models.UpdateProfileModel
 import ru.vsu.forum.features.topics.models.UpdateTopicModel
-import ru.vsu.forum.features.messages.models.SendMessageRequest
+import ru.vsu.forum.features.messages.models.SendMessageModel
+import ru.vsu.forum.features.messages.models.UpdateMessageModel
 import ru.vsu.forum.features.topics.models.CreateTopicModel
 import ru.vsu.forum.features.topics.models.Topic
 import ru.vsu.forum.model.RegisterUserModel
@@ -37,7 +40,7 @@ interface ForumService {
     @POST("Topics/{topicId}/messages")
     suspend fun sendMessage(
         @Path("topicId") topicId: UUID,
-        @Body sendMessageRequest: SendMessageRequest
+        @Body sendMessageRequest: SendMessageModel
     ): Response<UUID>
 
     @GET("Users/profile")
@@ -68,5 +71,11 @@ interface ForumService {
     suspend fun userExistsByUsername(@Query("username") username: String) : Response<Boolean>
 
     @POST("Users")
-    suspend fun registerUser(@Body registerUserModel: RegisterUserModel) : Response<UInt>
+    suspend fun registerUser(@Body registerUserModel: RegisterUserModel) : Response<Unit>
+
+    @PATCH("Messages/{id}")
+    suspend fun updateMessage(@Path("id") id: UUID, @Body updateMessageModel: UpdateMessageModel) : Response<Unit>
+
+    @DELETE("Messages/{id}")
+    suspend fun deleteMessage(@Path("id") id: UUID)
 }

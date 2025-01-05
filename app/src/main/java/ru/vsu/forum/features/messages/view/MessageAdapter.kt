@@ -14,6 +14,7 @@ class MessageAdapter(
     val fragment: Fragment,
     val userProvider: UserProvider
 ) : PagingDataAdapter<Message, MessageAdapter.MessageViewHolder>(MessageDiffCallback()) {
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val binding = MessageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,6 +26,15 @@ class MessageAdapter(
         if (message != null) {
             holder.bind(message)
         }
+
+        holder.itemView.setOnLongClickListener {
+            selectedPosition = holder.bindingAdapterPosition
+            false
+        }
+    }
+
+    fun getSelectedMessage(): Message? {
+        return getItem(selectedPosition)
     }
 
     inner class MessageViewHolder(private val binding: MessageItemBinding) :
@@ -39,11 +49,6 @@ class MessageAdapter(
                 else {
                     fragment.unregisterForContextMenu(binding.root)
                 }
-            }
-
-            binding.root.setOnClickListener {
-                binding.root.showContextMenu()
-                true
             }
 
             binding.executePendingBindings()
