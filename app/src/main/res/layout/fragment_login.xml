@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/login_text_view"
+            android:id="@+id/register_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_vertical_margin"
@@ -34,12 +34,12 @@
             android:textAppearance="?attr/textAppearanceCaption"
             android:textColor="?attr/colorError"
             android:visibility="@{viewModel.loginErrorVisibility}"
-            app:layout_constraintBottom_toTopOf="@id/login_username_input_layout"
+            app:layout_constraintBottom_toTopOf="@id/login_email_input_layout"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/login_username_input_layout"
+            android:id="@+id/login_email_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_vertical_margin"
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Email"
-                android:text="@={viewModel.username}"
+                android:text="@={viewModel.email}"
                 android:inputType="textEmailAddress"
                 android:lines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -65,7 +65,7 @@
             app:endIconMode="password_toggle"
             app:helperTextEnabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login_username_input_layout"
+            app:layout_constraintTop_toBottomOf="@id/login_email_input_layout"
             app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.textfield.TextInputEditText

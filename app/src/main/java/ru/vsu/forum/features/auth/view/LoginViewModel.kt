@@ -9,7 +9,7 @@ class LoginViewModel : ViewModel() {
     private val _loginErrorVisibility = MutableLiveData<Int>(View.INVISIBLE)
 
     val loginErrorVisibility: LiveData<Int> = _loginErrorVisibility
-    val username = MutableLiveData<String?>(null)
+    val email = MutableLiveData<String?>(null)
     val password = MutableLiveData<String?>(null)
 
     fun showLoginError(){

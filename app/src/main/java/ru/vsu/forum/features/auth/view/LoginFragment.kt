@@ -38,11 +38,11 @@ class LoginFragment : Fragment() {
             "Password is required"
             else null
 
-        val usernameError = if (viewModel.username.value.isNullOrBlank())
+        val usernameError = if (viewModel.email.value.isNullOrBlank())
             "Username is required"
             else null
 
-        binding.loginUsernameInputLayout.error = usernameError
+        binding.loginEmailInputLayout.error = usernameError
         binding.loginPasswordInputLayout.error = passwordError
 
         if (passwordError != null || usernameError != null) {
@@ -50,7 +50,7 @@ class LoginFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            if (!userProvider.tryLogin(viewModel.username.value!!, viewModel.password.value!!)) {
+            if (!userProvider.tryLogin(viewModel.email.value!!, viewModel.password.value!!)) {
                 viewModel.showLoginError()
             }
             else {
