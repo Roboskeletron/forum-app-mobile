@@ -12,9 +12,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.vsu.forum.R
 import ru.vsu.forum.databinding.FragmentTopicsBinding
+import ru.vsu.forum.features.auth.domain.UserProvider
 import ru.vsu.forum.features.topics.models.Topic
 import kotlin.apply
 
@@ -22,6 +24,7 @@ class TopicsFragment : Fragment() {
     private lateinit var binding: FragmentTopicsBinding
 
     private val viewModel: TopicsViewModel by viewModel()
+    private val userProvider: UserProvider by inject()
 
     private lateinit var topicAdapter: TopicAdapter
 
@@ -49,12 +52,18 @@ class TopicsFragment : Fragment() {
             findNavController().navigate(TopicsFragmentDirections.actionNavigationHomeToAddTopicFragment())
         }
 
+        userProvider.user.observe(viewLifecycleOwner) {
+            binding.topicsAddTopicFab.isEnabled = it != null
+        }
+
         topicAdapter = TopicAdapter { topic ->
             navigateToTopicFragment(topic)
         }
+
         binding.topicsRecyclerView.apply {
             adapter = topicAdapter
         }
+
         lifecycleScope.launch{
             viewModel.topicsFlow.collectLatest {
                     pagedData -> topicAdapter.submitData(pagedData)

@@ -1,5 +1,6 @@
 package ru.vsu.forum.features.messages.view
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -8,6 +9,8 @@ import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import org.koin.java.KoinJavaComponent.inject
+import ru.vsu.forum.features.auth.domain.UserProvider
 import ru.vsu.forum.features.common.data.ForumService
 import ru.vsu.forum.features.messages.data.MessagePagingSource
 import ru.vsu.forum.features.messages.data.MessageRepository
@@ -21,6 +24,7 @@ class MessagesViewModel(
     private val _searchQuery = MutableStateFlow("")
 
     val searchQuery: StateFlow<String> = _searchQuery
+    val message = MutableLiveData<String?>(null)
 
     val messagesFlow = searchQuery.flatMapLatest { query ->
         Pager(

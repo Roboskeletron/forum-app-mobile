@@ -18,11 +18,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.vsu.forum.R
 import ru.vsu.forum.databinding.FragmentMessagesBinding
+import ru.vsu.forum.features.auth.domain.UserProvider
 import ru.vsu.forum.features.messages.data.MessageRepository
 import java.util.UUID
 import kotlin.apply
-import kotlin.text.isBlank
-import kotlin.toString
 
 class MessagesFragment : Fragment() {
 
@@ -33,6 +32,8 @@ class MessagesFragment : Fragment() {
     private val viewModel: MessagesViewModel by viewModel { parametersOf(UUID.fromString(args.topicId), args.topicTitle) }
 
     private val messageRepository: MessageRepository by inject()
+
+    private val userProvider: UserProvider by inject()
 
     private lateinit var messageAdapter: MessageAdapter
 
@@ -86,18 +87,21 @@ class MessagesFragment : Fragment() {
 
     private fun setupMessageSending(){
         binding.messagesTextInputLayout.setEndIconOnClickListener {
-            val messageText = binding.messagesTextInput.text.toString()
+            val messageText = viewModel.message.value
 
-            if (messageText.isBlank()) return@setEndIconOnClickListener
+            if (messageText.isNullOrBlank()) return@setEndIconOnClickListener
 
             lifecycleScope.launch {
-                // TODO: handle exception 
                 messageRepository.sendMessage(viewModel.topicId, messageText)
                 binding.messagesTextInput.text?.clear()
                 viewModel.messagesFlow.collectLatest { pagingData ->
                     messageAdapter.submitData(pagingData)
                 }
             }
+        }
+
+        userProvider.user.observe(viewLifecycleOwner) {
+            binding.messagesTextInputLayout.isEnabled = it != null
         }
     }
 

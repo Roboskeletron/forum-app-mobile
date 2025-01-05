@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import ru.vsu.forum.databinding.FragmentTopicInfoBinding
+import ru.vsu.forum.features.auth.domain.UserProvider
 import ru.vsu.forum.features.profile.data.UserRepository
 import ru.vsu.forum.features.topics.data.TopicRepository
 import java.util.UUID
@@ -24,6 +25,7 @@ class TopicInfoFragment : Fragment() {
     private val viewModel: TopicInfoViewModel by viewModels()
     private val topicRepository: TopicRepository by inject()
     private val userRepository: UserRepository by inject()
+    private val userProvider: UserProvider by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +44,6 @@ class TopicInfoFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            val profile = userRepository.getUserProfile()
             val topic = topicRepository.getById(UUID.fromString(args.topicId))
 
             if (topic == null) {
@@ -61,7 +62,7 @@ class TopicInfoFragment : Fragment() {
 
             viewModel.topic.value = topic
             viewModel.author.value = author
-            viewModel.canEdit.value = profile?.id == author.id
+            viewModel.canEdit.value = userProvider.user.value?.id == author.id
         }
 
         return binding.root

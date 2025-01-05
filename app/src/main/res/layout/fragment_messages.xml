@@ -46,6 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Send message"
+                    android:text="@={viewModel.message}"
                     android:paddingHorizontal="56dp"
                     android:paddingVertical="12dp" />
             </com.google.android.material.textfield.TextInputLayout>
