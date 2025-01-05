@@ -51,8 +51,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Username"
+                android:hint="Email"
                 android:text="@={viewModel.username}"
+                android:inputType="textEmailAddress"
                 android:lines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 

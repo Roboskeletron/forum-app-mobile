@@ -50,12 +50,23 @@ class EditProfileFragment : Fragment() {
 
         binding.profileLogoutButton.setOnClickListener {
             lifecycleScope.launch {
+                userProvider.user.removeObservers(viewLifecycleOwner)
                 userProvider.logout()
                 findNavController().navigateUp()
             }
         }
 
-        viewModel.setProfile(userProvider.user)
+        userProvider.user.observe(viewLifecycleOwner) {
+            viewModel.setProfile(it)
+
+            if (it == null) {
+                lifecycleScope.launch {
+                    if (!userProvider.tryLogin()) {
+                        findNavController().navigate(EditProfileFragmentDirections.actionNavigationProfileToLoginFragment())
+                    }
+                }
+            }
+        }
 
         return binding.root
     }

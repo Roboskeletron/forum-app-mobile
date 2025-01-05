@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -51,6 +52,9 @@ class LoginFragment : Fragment() {
         lifecycleScope.launch {
             if (!userProvider.tryLogin(viewModel.username.value!!, viewModel.password.value!!)) {
                 viewModel.showLoginError()
+            }
+            else {
+                findNavController().navigateUp()
             }
         }
     }

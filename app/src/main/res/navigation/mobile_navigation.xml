@@ -20,7 +20,11 @@
         android:id="@+id/navigation_profile"
         android:name="ru.vsu.forum.features.profile.view.EditProfileFragment"
         android:label="Edit profile"
-        tools:layout="@layout/fragment_edit_profile" />
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_topic"
         android:name="ru.vsu.forum.features.messages.view.MessagesFragment"

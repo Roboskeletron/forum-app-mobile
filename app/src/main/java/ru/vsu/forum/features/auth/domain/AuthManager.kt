@@ -87,7 +87,7 @@ class AuthManagerImpl(
                     return null
                 }
 
-                response.body()!!.also { tokenData ->
+                return response.body()!!.also { tokenData ->
                     dataStore.edit {
                         it[accessTokenKey] = tokenData.accessToken
                         it[refreshTokenKey] = tokenData.refreshToken
