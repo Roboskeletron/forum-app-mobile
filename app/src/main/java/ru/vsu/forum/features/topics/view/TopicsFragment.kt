@@ -38,7 +38,7 @@ class TopicsFragment : Fragment() {
         toolbar.setOnMenuItemClickListener {
             when (it.itemId){
                 R.id.action_profile -> {
-                    findNavController().navigate(MessagesFragmentDirections.actionNavigationTopicToNavigationProfile())
+                    findNavController().navigate(TopicsFragmentDirections.actionNavigationHomeToNavigationProfile())
                     true
                 }
                 else -> false
