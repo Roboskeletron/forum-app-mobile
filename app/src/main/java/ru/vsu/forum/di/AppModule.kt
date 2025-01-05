@@ -4,6 +4,7 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import ru.vsu.forum.features.auth.view.LoginViewModel
+import ru.vsu.forum.features.auth.view.RegisterViewModel
 import ru.vsu.forum.features.messages.view.MessagesViewModel
 import ru.vsu.forum.features.profile.view.EditProfileViewModel
 import ru.vsu.forum.features.topics.view.AddTopicViewModel
@@ -18,4 +19,5 @@ val appModule = module {
     viewModelOf(::AddTopicViewModel)
     viewModelOf(::TopicInfoViewModel)
     viewModelOf(::LoginViewModel)
+    viewModelOf(::RegisterViewModel)
 }

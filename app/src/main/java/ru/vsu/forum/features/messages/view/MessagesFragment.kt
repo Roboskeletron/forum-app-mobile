@@ -52,7 +52,7 @@ class MessagesFragment : Fragment() {
         toolbar.setOnMenuItemClickListener {
             when (it.itemId){
                 R.id.action_profile -> {
-                    findNavController().navigate(R.id.navigation_profile)
+                    findNavController().navigate(MessagesFragmentDirections.actionNavigationTopicToNavigationProfile())
                     true
                 }
 
