@@ -1,8 +1,10 @@
 package ru.vsu.forum.features.messages.view
 
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
@@ -37,10 +39,6 @@ class MessagesFragment : Fragment() {
 
     private lateinit var messageAdapter: MessageAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -73,7 +71,7 @@ class MessagesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        messageAdapter = MessageAdapter()
+        messageAdapter = MessageAdapter(this, userProvider)
         binding.messagesRecyclerView.apply {
             adapter = messageAdapter
         }
@@ -121,5 +119,16 @@ class MessagesFragment : Fragment() {
                 return true
             }
         })
+    }
+
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val inflater: MenuInflater = MenuInflater(v.context)
+        inflater.inflate(R.menu.message_context_menu, menu)
     }
 }
