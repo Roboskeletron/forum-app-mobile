@@ -78,4 +78,10 @@ interface ForumService {
 
     @DELETE("Messages/{id}")
     suspend fun deleteMessage(@Path("id") id: UUID)
+
+    @PATCH("Messages/{id}/like")
+    suspend fun likeMessage(@Path("id") id: UUID) : Response<Message>
+
+    @PATCH("Messages/{id}/dislike")
+    suspend fun dislikeMessage(@Path("id") id: UUID) : Response<Message>
 }

@@ -66,6 +66,7 @@
                     android:text="@{message.text}" />
 
                 <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/like_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -75,6 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{String.valueOf(message.likeCount)}"
+                        android:checked="@{!message.canLike}"
                         app:icon="@drawable/ic_heart" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
             </androidx.appcompat.widget.LinearLayoutCompat>

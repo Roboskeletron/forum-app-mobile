@@ -12,6 +12,8 @@ interface MessageRepository{
     suspend fun getMessages(topicId: UUID, pageIndex: Int, pageSize: Int, searchQuery: String?) : List<Message>
     suspend fun deleteMessage(id: UUID)
     suspend fun updateMessage(id: UUID, text: String)
+    suspend fun likeMessage(id: UUID): Message
+    suspend fun dislikeMessage(id: UUID): Message
 }
 
 class MessageRepositoryImpl(private val forumService: ForumService) : MessageRepository {
@@ -61,6 +63,26 @@ class MessageRepositoryImpl(private val forumService: ForumService) : MessageRep
         }
         catch (e: Exception){
             Log.e(MessageRepositoryImpl::class.qualifiedName, "Unable to update message", e)
+        }
+    }
+
+    override suspend fun likeMessage(id: UUID): Message {
+        try {
+            return forumService.likeMessage(id).body()!!
+        }
+        catch (e: Exception) {
+            Log.e(MessageRepositoryImpl::class.qualifiedName, "Unable to like message", e)
+            throw e
+        }
+    }
+
+    override suspend fun dislikeMessage(id: UUID): Message {
+        try {
+            return forumService.dislikeMessage(id).body()!!
+        }
+        catch (e: Exception) {
+            Log.e(MessageRepositoryImpl::class.qualifiedName, "Unable to dislike message", e)
+            throw e
         }
     }
 }

@@ -9,6 +9,7 @@ data class Message(
     val text: String,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime?,
-    val likeCount: Int
+    val likeCount: Int,
+    val canLike: Boolean
 )
 

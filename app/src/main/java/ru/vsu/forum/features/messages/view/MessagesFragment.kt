@@ -77,7 +77,7 @@ class MessagesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        messageAdapter = MessageAdapter(this, userProvider)
+        messageAdapter = MessageAdapter(this, userProvider, messageRepository)
         binding.messagesRecyclerView.apply {
             adapter = messageAdapter
         }

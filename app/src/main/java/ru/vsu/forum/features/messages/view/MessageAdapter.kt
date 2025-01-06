@@ -3,16 +3,20 @@ package ru.vsu.forum.features.messages.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 import ru.vsu.forum.databinding.MessageItemBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
+import ru.vsu.forum.features.messages.data.MessageRepository
 import ru.vsu.forum.features.messages.models.Message
 
 class MessageAdapter(
     val fragment: Fragment,
-    val userProvider: UserProvider
+    val userProvider: UserProvider,
+    val messageRepository: MessageRepository
 ) : PagingDataAdapter<Message, MessageAdapter.MessageViewHolder>(MessageDiffCallback()) {
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 
@@ -49,9 +53,22 @@ class MessageAdapter(
                 else {
                     fragment.unregisterForContextMenu(binding.root)
                 }
+
+                binding.likeButton.isEnabled = it != null
             }
 
             binding.executePendingBindings()
+
+            binding.likeButton.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
+                fragment.lifecycleScope.launch {
+                    val newMessage = if (isChecked)
+                        messageRepository.likeMessage(message.id)
+                    else messageRepository.dislikeMessage(message.id)
+
+                    binding.message = newMessage
+                }
+                binding.executePendingBindings()
+            }
         }
     }
 
