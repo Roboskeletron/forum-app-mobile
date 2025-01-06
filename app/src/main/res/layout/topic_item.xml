@@ -30,7 +30,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@{topic.title}"
-                style="@style/TextHeader2" />
+                android:textAppearance="?attr/textAppearanceTitleMedium" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:text="@{topic.description}"
-                style="@style/TextBody"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
                 android:visibility="@{topic.description.empty || topic.description == null ? View.GONE : View.VISIBLE}"/>
 
             <com.google.android.material.textview.MaterialTextView
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:text="@{Integer.toString(topic.userCount)}"
-                android:textAppearance="?attr/textAppearanceCaption" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

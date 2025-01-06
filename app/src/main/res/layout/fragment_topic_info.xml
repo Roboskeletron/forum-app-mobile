@@ -19,8 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_vertical_margin"
             android:text="@{viewModel.topic.title}"
-            app:layout_constraintTop_toBottomOf="@id/topic_info_app_bar_layout"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/topic_info_app_bar_layout" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/topic_info_author_linear_layout"
@@ -30,46 +31,50 @@
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/topic_info_topic_title">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Author"
-                    android:layout_gravity="center_vertical"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Author"
+                android:textAppearance="?attr/textAppearanceSubtitle1" />
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginVertical="@dimen/activity_vertical_margin"
-                    android:src="@drawable/ic_avatar_placeholder"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                    android:layout_gravity="center_vertical"/>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginVertical="@dimen/activity_vertical_margin"
+                android:src="@drawable/ic_avatar_placeholder"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.author.name}"
-                    android:layout_gravity="center_vertical"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@{viewModel.author.name}"
+                android:textAppearance="?attr/textAppearanceSubtitle1" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_margin="@dimen/activity_vertical_margin"
+            android:orientation="vertical"
             android:visibility="@{viewModel.topic.description.empty || viewModel.topic.description == null ? View.GONE : View.VISIBLE}"
             app:layout_constraintTop_toBottomOf="@id/topic_info_author_linear_layout">
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description" />
+                android:text="Description"
+                android:textAppearance="?attr/textAppearanceTitleLarge" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:text="@{viewModel.topic.description}"/>
+                android:text="@{viewModel.topic.description}"
+                android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -78,10 +83,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_vertical_margin"
-            app:srcCompat="@drawable/ic_edit"
+            android:visibility="@{viewModel.canEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:visibility="@{viewModel.canEdit ? View.VISIBLE : View.GONE}"/>
+            app:srcCompat="@drawable/ic_edit" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/topic_info_app_bar_layout"

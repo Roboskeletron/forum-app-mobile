@@ -12,6 +12,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
         app:cardCornerRadius="0dp"
@@ -28,63 +29,54 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/ic_avatar_placeholder"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"/>
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="12dp">
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="start">
+                    android:layout_gravity="start"
+                    android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{message.author.name}"
-                        style="@style/TextHeader2"/>
+                        android:text="@{message.author.name}" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:textAppearance="?attr/textAppearanceSubtitle2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{message.updatedAt != null ? message.updatedAt.toString() : message.createdAt.toString()}"
                         android:layout_marginStart="6dp"
-                        style="@style/TextTime" />
+                        android:text="@{message.updatedAt != null ? message.updatedAt.toString() : message.createdAt.toString()}" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="@{message.text}"
-                    style="@style/TextBody"
-                    android:ellipsize="end"/>
+                    android:ellipsize="end"
+                    android:text="@{message.text}" />
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <com.google.android.material.button.MaterialButtonToggleGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <com.google.android.material.textview.MaterialTextView
+                    android:layout_marginTop="4dp"
+                    app:singleSelection="true">
+                    <com.google.android.material.button.MaterialButton
+                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{String.valueOf(message.likeCount)}"
-                        android:textColor="?attr/colorPrimary"/>
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Like"
-                        android:src="@drawable/ic_like"
-                        app:tint="?attr/colorPrimary" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        app:icon="@drawable/ic_heart" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>
