@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import ru.vsu.forum.databinding.MessageItemBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
+import ru.vsu.forum.features.common.domain.decodeBase64ToBitmap
 import ru.vsu.forum.features.messages.data.MessageRepository
 import ru.vsu.forum.features.messages.models.Message
 
@@ -55,6 +56,12 @@ class MessageAdapter(
                 }
 
                 binding.likeButton.isEnabled = it != null
+            }
+
+            if (message.author.avatar != null) {
+                decodeBase64ToBitmap(message.author.avatar)?.also {
+                    binding.avatarImageView.setImageBitmap(it)
+                }
             }
 
             binding.executePendingBindings()

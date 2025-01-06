@@ -26,9 +26,11 @@
             android:orientation="horizontal">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:id="@+id/avatar_image_view"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:src="@drawable/ic_avatar_placeholder"
+                android:scaleType="fitXY"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
