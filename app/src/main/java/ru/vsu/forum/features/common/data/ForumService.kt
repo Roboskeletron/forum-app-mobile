@@ -1,18 +1,21 @@
 package ru.vsu.forum.features.common.data
 
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.vsu.forum.features.messages.models.Message
 import ru.vsu.forum.features.common.models.PagedList
-import ru.vsu.forum.features.profile.models.UpdateProfileModel
 import ru.vsu.forum.features.topics.models.UpdateTopicModel
 import ru.vsu.forum.features.messages.models.SendMessageModel
 import ru.vsu.forum.features.messages.models.UpdateMessageModel
@@ -53,8 +56,13 @@ interface ForumService {
     @GET("Topics/exists-by-title")
     suspend fun topicExistsByTitle(@Query("title") title: String) : Response<Boolean>
 
+    @Multipart
     @PUT("Users/profile")
-    suspend fun updateProfile(@Body updateProfileModel: UpdateProfileModel) : Response<Unit>
+    suspend fun updateProfile(
+        @Part("Name") name: RequestBody,
+        @Part("Description") description: RequestBody?,
+        @Part avatar: MultipartBody.Part?
+    ) : Response<Unit>
 
     @GET("Users/profile/{id}")
     suspend fun getUserById(@Path("id") id: UUID) : Response<User?>

@@ -1,16 +1,11 @@
 package ru.vsu.forum.features.profile.view
 
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.os.FileUtils
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.contract.ActivityResultContracts.GetContent
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -19,12 +14,11 @@ import androidx.navigation.ui.setupWithNavController
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.vsu.forum.R
 import ru.vsu.forum.databinding.FragmentEditProfileBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
 import ru.vsu.forum.features.common.domain.ImageService
 import ru.vsu.forum.features.profile.data.UserRepository
-import ru.vsu.forum.R
-import java.io.File
 import kotlin.text.isNullOrEmpty
 import kotlin.toString
 
@@ -54,7 +48,7 @@ class EditProfileFragment : Fragment() {
 
         binding.profileUpdateButton.setOnClickListener {
             lifecycleScope.launch {
-                userRepository.updateProfile(viewModel.name.value.toString(), viewModel.description.value)
+                userRepository.updateProfile(viewModel.name.value.toString(), viewModel.description.value, viewModel.avatar.value)
                 val profile = userRepository.getUserProfile()
                 viewModel.setProfile(profile)
             }

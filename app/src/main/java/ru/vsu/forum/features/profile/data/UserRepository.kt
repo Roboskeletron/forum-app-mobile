@@ -1,16 +1,20 @@
 package ru.vsu.forum.features.profile.data
 
+import android.graphics.Bitmap
 import android.util.Log
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import ru.vsu.forum.features.common.data.ForumService
-import ru.vsu.forum.features.profile.models.UpdateProfileModel
 import ru.vsu.forum.model.RegisterUserModel
 import ru.vsu.forum.model.User
+import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.util.UUID
 
 interface UserRepository {
     suspend fun getUserProfile(): User?
-    suspend fun updateProfile(name: String, description: String? = null)
+    suspend fun updateProfile(name: String, description: String? = null, avatar: Bitmap? = null)
     suspend fun getById(id: UUID): User?
     suspend fun existsByEmail(email: String): Boolean
     suspend fun existsByUsername(username: String): Boolean
@@ -29,9 +33,23 @@ class UserRepositoryImpl(private val forumService: ForumService) : UserRepositor
         }
     }
 
-    override suspend fun updateProfile(name: String, description: String?) {
+    override suspend fun updateProfile(name: String, description: String?, avatar: Bitmap?) {
         try {
-            forumService.updateProfile(UpdateProfileModel(name, description))
+            val namePart = RequestBody.create(MediaType.parse("text/plain"), name)
+            val descriptionPart = description?.let {
+                RequestBody.create(MediaType.parse("text/plain"), it)
+            }
+            val avatarPart = avatar?.let { bitmap ->
+                ByteArrayOutputStream().use {
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+                    RequestBody.create(MediaType.parse("image/bmp"), it.toByteArray())
+                }
+            }?.let {
+                MultipartBody.Part.createFormData("Avatar", "null", it)
+            }
+
+            forumService.updateProfile(namePart, descriptionPart, avatarPart)
+
         } catch (e: Exception) {
             Log.e(UserRepositoryImpl::class.qualifiedName, "Unable to update profile", e)
         }
