@@ -4,11 +4,12 @@ import android.util.Log
 import ru.vsu.forum.features.common.data.ForumService
 import ru.vsu.forum.features.topics.models.CreateTopicModel
 import ru.vsu.forum.features.topics.models.Topic
+import ru.vsu.forum.features.topics.models.TopicSearchParameters
 import ru.vsu.forum.features.topics.models.UpdateTopicModel
 import java.util.UUID
 
 interface TopicRepository {
-    suspend fun getTopics(pageIndex: Int, pageSize: Int, searchQuery: String?) : List<Topic>
+    suspend fun getTopics(pageIndex: Int, pageSize: Int, searchParameters: TopicSearchParameters) : List<Topic>
     suspend fun createTopic(title: String, description: String? = null) : UUID?
     suspend fun isTitleUnique(title: String) : Boolean
     suspend fun getById(id: UUID) : Topic?
@@ -19,10 +20,16 @@ class TopicRepositoryImpl(private val forumService: ForumService) : TopicReposit
     override suspend fun getTopics(
         pageIndex: Int,
         pageSize: Int,
-        searchQuery: String?
+        searchParameters: TopicSearchParameters
     ): List<Topic> {
         try {
-            val response = forumService.getTopics(pageIndex, pageSize, searchQuery)
+            val response = forumService.getTopics(
+                pageIndex,
+                pageSize,
+                searchParameters.author,
+                searchParameters.title,
+                searchParameters.content
+            )
             return response.body()?.items ?: listOf()
         }
         catch (e: Exception){

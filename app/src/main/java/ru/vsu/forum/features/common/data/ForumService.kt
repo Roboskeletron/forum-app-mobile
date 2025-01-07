@@ -30,7 +30,9 @@ interface ForumService {
     suspend fun getTopics(
         @Query("PageNumber") page: Int,
         @Query("PageSize") pageSize: Int,
-        @Query("search") search: String? = null
+        @Query("Author") author: String? = null,
+        @Query("Title") title: String? = null,
+        @Query("Content") content: String? = null
     ): Response<PagedList<Topic>>
 
     @GET("Topics/{id}/messages")
@@ -38,7 +40,8 @@ interface ForumService {
         @Path("id") topicId: UUID,
         @Query("PageNumber") page: Int,
         @Query("PageSize") pageSize: Int,
-        @Query("search") search: String? = null
+        @Query("author") author: String? = null,
+        @Query("content") content: String? = null
     ): Response<PagedList<Message>>
 
     @POST("Topics/{topicId}/messages")

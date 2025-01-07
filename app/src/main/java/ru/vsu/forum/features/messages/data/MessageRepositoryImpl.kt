@@ -3,13 +3,14 @@ package ru.vsu.forum.features.messages.data
 import android.util.Log
 import ru.vsu.forum.features.common.data.ForumService
 import ru.vsu.forum.features.messages.models.Message
+import ru.vsu.forum.features.messages.models.MessageSearchParameters
 import ru.vsu.forum.features.messages.models.SendMessageModel
 import ru.vsu.forum.features.messages.models.UpdateMessageModel
 import java.util.UUID
 
 interface MessageRepository{
     suspend fun sendMessage(topicId: UUID, text: String) : UUID
-    suspend fun getMessages(topicId: UUID, pageIndex: Int, pageSize: Int, searchQuery: String?) : List<Message>
+    suspend fun getMessages(topicId: UUID, pageIndex: Int, pageSize: Int, searchParameters: MessageSearchParameters) : List<Message>
     suspend fun deleteMessage(id: UUID)
     suspend fun updateMessage(id: UUID, text: String)
     suspend fun likeMessage(id: UUID): Message
@@ -36,10 +37,16 @@ class MessageRepositoryImpl(private val forumService: ForumService) : MessageRep
         topicId: UUID,
         pageIndex: Int,
         pageSize: Int,
-        searchQuery: String?
+        searchParameters: MessageSearchParameters
     ): List<Message> {
         try {
-            val messages = forumService.getMessages(topicId, pageIndex, pageSize, searchQuery)
+            val messages = forumService.getMessages(
+                topicId,
+                pageIndex,
+                pageSize,
+                searchParameters.author,
+                searchParameters.content
+            )
             return messages.body()?.items ?: listOf()
         }
         catch (e: Exception){
