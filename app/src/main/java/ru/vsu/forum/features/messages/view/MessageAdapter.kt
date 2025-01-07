@@ -10,14 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import ru.vsu.forum.databinding.MessageItemBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
-import ru.vsu.forum.features.common.domain.decodeBase64ToBitmap
+import ru.vsu.forum.features.common.domain.ImageService
 import ru.vsu.forum.features.messages.data.MessageRepository
+import ru.vsu.forum.features.messages.models.Author
 import ru.vsu.forum.features.messages.models.Message
+import ru.vsu.forum.features.profile.data.UserRepository
 
 class MessageAdapter(
     val fragment: Fragment,
     val userProvider: UserProvider,
-    val messageRepository: MessageRepository
+    val messageRepository: MessageRepository,
+    val userRepository: UserRepository
 ) : PagingDataAdapter<Message, MessageAdapter.MessageViewHolder>(MessageDiffCallback()) {
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 
@@ -44,24 +47,20 @@ class MessageAdapter(
 
     inner class MessageViewHolder(private val binding: MessageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        private val imageService = ImageService(userRepository)
+
         fun bind(message: Message) {
             binding.message = message
 
             userProvider.user.observe(fragment.viewLifecycleOwner) {
                 if (it?.id == message.author.id) {
                     fragment.registerForContextMenu(binding.root)
-                }
-                else {
+                } else {
                     fragment.unregisterForContextMenu(binding.root)
                 }
 
                 binding.likeButton.isEnabled = it != null
-            }
-
-            if (message.author.avatar != null) {
-                decodeBase64ToBitmap(message.author.avatar)?.also {
-                    binding.avatarImageView.setImageBitmap(it)
-                }
             }
 
             binding.executePendingBindings()
@@ -75,6 +74,20 @@ class MessageAdapter(
                     binding.message = newMessage
                 }
                 binding.executePendingBindings()
+            }
+
+            fetchAuthorAvatar(message.author)
+        }
+
+        private fun fetchAuthorAvatar(author: Author) {
+            imageService.avatar.observe(fragment.viewLifecycleOwner) {
+                if (it != null) {
+                    binding.avatarImageView.setImageBitmap(it)
+                }
+            }
+
+            fragment.lifecycleScope.launch {
+                imageService.fetchAvatar(author.id)
             }
         }
     }

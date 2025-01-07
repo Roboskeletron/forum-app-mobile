@@ -1,5 +1,6 @@
 package ru.vsu.forum.features.common.data
 
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -84,4 +85,7 @@ interface ForumService {
 
     @PATCH("Messages/{id}/dislike")
     suspend fun dislikeMessage(@Path("id") id: UUID) : Response<Message>
+
+    @GET("Users/{id}/avatar")
+    suspend fun getUserAvatar(@Path("id") id: UUID) : Response<ResponseBody>
 }

@@ -5,6 +5,7 @@ import ru.vsu.forum.features.common.data.ForumService
 import ru.vsu.forum.features.profile.models.UpdateProfileModel
 import ru.vsu.forum.model.RegisterUserModel
 import ru.vsu.forum.model.User
+import java.io.InputStream
 import java.util.UUID
 
 interface UserRepository {
@@ -14,6 +15,7 @@ interface UserRepository {
     suspend fun existsByEmail(email: String): Boolean
     suspend fun existsByUsername(username: String): Boolean
     suspend fun register(username: String, email: String, password: String)
+    suspend fun getUserAvatar(id: UUID) : InputStream?
 }
 
 class UserRepositoryImpl(private val forumService: ForumService) : UserRepository {
@@ -75,5 +77,20 @@ class UserRepositoryImpl(private val forumService: ForumService) : UserRepositor
         } catch (e: Exception) {
             Log.e(UserRepositoryImpl::class.qualifiedName, "Unable to register new user", e)
         }
+    }
+
+    override suspend fun getUserAvatar(id: UUID): InputStream? {
+        try {
+            val response = forumService.getUserAvatar(id)
+
+            if (!response.isSuccessful) {
+                return null
+            }
+
+            return response.body()?.byteStream()
+        } catch (e: Exception) {
+            Log.e(UserRepositoryImpl::class.qualifiedName, "Unable to register new user", e)
+        }
+        return null
     }
 }

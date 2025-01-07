@@ -24,6 +24,7 @@ import ru.vsu.forum.databinding.FragmentMessagesBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
 import ru.vsu.forum.features.messages.data.MessageRepository
 import ru.vsu.forum.features.messages.models.Message
+import ru.vsu.forum.features.profile.data.UserRepository
 import java.util.UUID
 import kotlin.apply
 
@@ -38,6 +39,8 @@ class MessagesFragment : Fragment() {
     private val messageRepository: MessageRepository by inject()
 
     private val userProvider: UserProvider by inject()
+
+    private val userRepository: UserRepository by inject()
 
     private lateinit var messageAdapter: MessageAdapter
 
@@ -77,7 +80,7 @@ class MessagesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        messageAdapter = MessageAdapter(this, userProvider, messageRepository)
+        messageAdapter = MessageAdapter(this, userProvider, messageRepository, userRepository)
         binding.messagesRecyclerView.apply {
             adapter = messageAdapter
         }
