@@ -51,6 +51,14 @@ class TopicInfoFragment : Fragment() {
             }
         }
 
+        binding.topicInfoAuthorLinearLayout.setOnClickListener {
+            val direction = if (viewModel.author.value!!.id == userProvider.user.value?.id)
+                TopicInfoFragmentDirections.actionTopicInfoFragmentToNavigationProfile()
+                else TopicInfoFragmentDirections.actionTopicInfoFragmentToViewProfileFragment(viewModel.author.value!!.id.toString())
+
+            findNavController().navigate(direction)
+        }
+
         lifecycleScope.launch {
             val topic = topicRepository.getById(UUID.fromString(args.topicId))
 

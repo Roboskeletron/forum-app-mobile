@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +17,7 @@ import ru.vsu.forum.features.messages.data.MessageRepository
 import ru.vsu.forum.features.messages.models.Author
 import ru.vsu.forum.features.messages.models.Message
 import ru.vsu.forum.features.profile.data.UserRepository
+import java.util.UUID
 
 class MessageAdapter(
     val fragment: Fragment,
@@ -76,6 +79,18 @@ class MessageAdapter(
                 binding.executePendingBindings()
             }
 
+            binding.avatarImageView.setOnClickListener {
+                val direction = getViewProfileNavDirection(message.author.id)
+
+                fragment.findNavController().navigate(direction)
+            }
+
+            binding.authorName.setOnClickListener {
+                val direction = getViewProfileNavDirection(message.author.id)
+
+                fragment.findNavController().navigate(direction)
+            }
+
             fetchAuthorAvatar(message.author)
         }
 
@@ -90,6 +105,11 @@ class MessageAdapter(
                 imageService.fetchAvatar(author.id)
             }
         }
+
+        private fun getViewProfileNavDirection(userId: UUID) : NavDirections =
+            if (userId == userProvider.user.value?.id)
+                MessagesFragmentDirections.actionNavigationTopicToNavigationProfile()
+            else MessagesFragmentDirections.actionNavigationTopicToViewProfileFragment(userId.toString())
     }
 
     class MessageDiffCallback : DiffUtil.ItemCallback<Message>() {

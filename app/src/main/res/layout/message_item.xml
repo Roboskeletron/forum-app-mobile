@@ -46,13 +46,14 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:id="@+id/author_name"
+                        android:textAppearance="?attr/textAppearanceTitleLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{message.author.name}" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:textAppearance="?attr/textAppearanceSubtitle2"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"

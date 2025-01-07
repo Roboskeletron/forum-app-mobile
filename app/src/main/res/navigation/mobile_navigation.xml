@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_navigation_topic_to_navigation_profile"
             app:destination="@id/navigation_profile" />
+        <action
+            android:id="@+id/action_navigation_topic_to_viewProfileFragment"
+            app:destination="@id/viewProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/addTopicFragment"
@@ -63,6 +66,12 @@
         <action
             android:id="@+id/action_topicInfoFragment_to_editTopicFragment"
             app:destination="@id/editTopicFragment" />
+        <action
+            android:id="@+id/action_topicInfoFragment_to_viewProfileFragment"
+            app:destination="@id/viewProfileFragment" />
+        <action
+            android:id="@+id/action_topicInfoFragment_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
     </fragment>
     <fragment
         android:id="@+id/editTopicFragment"
@@ -86,4 +95,13 @@
         android:id="@+id/registerFragment"
         android:name="ru.vsu.forum.features.auth.view.RegisterFragment"
         tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/viewProfileFragment"
+        android:name="ru.vsu.forum.features.profile.view.ViewProfileFragment"
+        android:label="fragment_view_profile"
+        tools:layout="@layout/fragment_view_profile" >
+        <argument
+            android:name="userId"
+            app:argType="string" />
+    </fragment>
 </navigation>
