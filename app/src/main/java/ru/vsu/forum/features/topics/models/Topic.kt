@@ -7,5 +7,6 @@ data class Topic(
     val title: String,
     val description: String?,
     val authorId: UUID,
-    val userCount: Int
+    val likeCount: Int,
+    val canLike: Boolean
 )

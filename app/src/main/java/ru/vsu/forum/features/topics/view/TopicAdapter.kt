@@ -2,14 +2,22 @@ package ru.vsu.forum.features.topics.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 import ru.vsu.forum.databinding.TopicItemBinding
+import ru.vsu.forum.features.auth.domain.UserProvider
+import ru.vsu.forum.features.topics.data.TopicRepository
 import ru.vsu.forum.features.topics.models.Topic
-import java.util.UUID
 
-class TopicAdapter(private val onTopicClick: (Topic) -> Unit) : PagingDataAdapter<Topic, TopicAdapter.TopicViewHolder>(TopicDiffCallback()) {
+class TopicAdapter(
+    val fragment: TopicsFragment,
+    val userProvider: UserProvider,
+    val topicRepository: TopicRepository
+) : PagingDataAdapter<Topic, TopicAdapter.TopicViewHolder>(TopicDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopicViewHolder {
         val binding = TopicItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,9 +34,33 @@ class TopicAdapter(private val onTopicClick: (Topic) -> Unit) : PagingDataAdapte
     inner class TopicViewHolder(private val binding: TopicItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(topic: Topic) {
             binding.topic = topic
+
+            userProvider.user.observe(fragment.viewLifecycleOwner) {
+//                if (it?.id == message.author.id) {
+//                    fragment.registerForContextMenu(binding.root)
+//                } else {
+//                    fragment.unregisterForContextMenu(binding.root)
+//                }
+
+                binding.likeButton.isEnabled = it != null
+            }
+
             binding.executePendingBindings()
+
             binding.root.setOnClickListener{
-                onTopicClick(topic)
+                val action = TopicsFragmentDirections
+                    .actionNavigationHomeToNavigationTopic(topic.id.toString(), topic.title)
+                fragment.findNavController().navigate(action)
+            }
+
+            binding.likeButton.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
+                fragment.lifecycleScope.launch {
+                    val newTopic = if (isChecked)
+                        topicRepository.likeTopic(topic.id)
+                        else topicRepository.dislikeTopic(topic.id)
+                    binding.topic = newTopic
+                }
+                binding.executePendingBindings()
             }
         }
     }

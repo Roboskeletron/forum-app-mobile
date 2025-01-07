@@ -17,6 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.vsu.forum.R
 import ru.vsu.forum.databinding.FragmentTopicsBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
+import ru.vsu.forum.features.topics.data.TopicRepository
 import ru.vsu.forum.features.topics.models.Topic
 import kotlin.apply
 
@@ -25,6 +26,7 @@ class TopicsFragment : Fragment() {
 
     private val viewModel: TopicsViewModel by viewModel()
     private val userProvider: UserProvider by inject()
+    private val topicRepository: TopicRepository by inject()
 
     private lateinit var topicAdapter: TopicAdapter
 
@@ -56,9 +58,11 @@ class TopicsFragment : Fragment() {
             binding.topicsAddTopicFab.isEnabled = it != null
         }
 
-        topicAdapter = TopicAdapter { topic ->
-            navigateToTopicFragment(topic)
-        }
+        topicAdapter = TopicAdapter(
+            this,
+            userProvider,
+            topicRepository
+        )
 
         binding.topicsRecyclerView.apply {
             adapter = topicAdapter
@@ -89,11 +93,5 @@ class TopicsFragment : Fragment() {
                 return true
             }
         })
-    }
-
-    private fun navigateToTopicFragment(topic: Topic) {
-        val action = TopicsFragmentDirections
-            .actionNavigationHomeToNavigationTopic(topic.id.toString(), topic.title)
-        findNavController().navigate(action)
     }
 }

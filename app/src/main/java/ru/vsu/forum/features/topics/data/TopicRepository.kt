@@ -14,6 +14,8 @@ interface TopicRepository {
     suspend fun isTitleUnique(title: String) : Boolean
     suspend fun getById(id: UUID) : Topic?
     suspend fun updateTopic(id: UUID, title: String, description: String? = null)
+    suspend fun likeTopic(id: UUID): Topic
+    suspend fun dislikeTopic(id: UUID): Topic
 }
 
 class TopicRepositoryImpl(private val forumService: ForumService) : TopicRepository{
@@ -77,6 +79,26 @@ class TopicRepositoryImpl(private val forumService: ForumService) : TopicReposit
         }
         catch (e: Exception) {
             Log.e(TopicRepositoryImpl::class.qualifiedName, "Unable to update topic", e)
+        }
+    }
+
+    override suspend fun likeTopic(id: UUID): Topic {
+        try {
+            return forumService.likeTopic(id).body()!!
+        }
+        catch (e: Exception) {
+            Log.e(TopicRepositoryImpl::class.qualifiedName, "Unable to like topic", e)
+            throw e
+        }
+    }
+
+    override suspend fun dislikeTopic(id: UUID): Topic {
+        try {
+            return forumService.dislikeTopic(id).body()!!
+        }
+        catch (e: Exception) {
+            Log.e(TopicRepositoryImpl::class.qualifiedName, "Unable to dislike topic", e)
+            throw e
         }
     }
 }

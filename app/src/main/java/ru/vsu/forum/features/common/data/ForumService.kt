@@ -99,4 +99,10 @@ interface ForumService {
 
     @GET("Users/{id}/avatar")
     suspend fun getUserAvatar(@Path("id") id: UUID) : Response<ResponseBody>
+
+    @PATCH("Topics/{id}/like")
+    suspend fun likeTopic(@Path("id") id: UUID) : Response<Topic>
+
+    @PATCH("Topics/{id}/dislike")
+    suspend fun dislikeTopic(@Path("id") id: UUID) : Response<Topic>
 }

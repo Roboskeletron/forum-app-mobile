@@ -42,12 +42,21 @@
                 android:textAppearance="?attr/textAppearanceBodyLarge"
                 android:visibility="@{topic.description.empty || topic.description == null ? View.GONE : View.VISIBLE}"/>
 
-            <com.google.android.material.textview.MaterialTextView
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/like_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@{@string/topic_users(topic.userCount)}"
-                android:textAppearance="?attr/textAppearanceBodySmall" />
+                android:layout_marginTop="4dp">
+
+            <com.google.android.material.button.MaterialButton
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(topic.likeCount)}"
+                android:checked="@{!topic.canLike}"
+                app:icon="@drawable/ic_heart"/>
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>
