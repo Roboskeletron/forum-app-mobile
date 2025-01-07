@@ -1,9 +1,17 @@
 package ru.vsu.forum.features.profile.view
 
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.os.FileUtils
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.GetContent
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -16,6 +24,7 @@ import ru.vsu.forum.features.auth.domain.UserProvider
 import ru.vsu.forum.features.common.domain.ImageService
 import ru.vsu.forum.features.profile.data.UserRepository
 import ru.vsu.forum.R
+import java.io.File
 import kotlin.text.isNullOrEmpty
 import kotlin.toString
 
@@ -60,12 +69,28 @@ class EditProfileFragment : Fragment() {
         }
 
         imageService.avatar.observe(viewLifecycleOwner) {
+            viewModel.avatar.value = it
+        }
+
+        viewModel.avatar.observe(viewLifecycleOwner) {
             if (it == null) {
                 binding.profilePictureView.setImageResource(R.drawable.ic_avatar_placeholder)
             }
             else {
                 binding.profilePictureView.setImageBitmap(it)
             }
+        }
+
+        val pickAvatar = registerForActivityResult(PickVisualMedia()) { uri ->
+            uri?.also {
+                context?.contentResolver?.openInputStream(uri).use {
+                    viewModel.avatar.value = BitmapFactory.decodeStream(it)
+                }
+            }
+        }
+
+        binding.profilePictureView.setOnClickListener {
+            pickAvatar.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
         }
 
         userProvider.user.observe(viewLifecycleOwner) {

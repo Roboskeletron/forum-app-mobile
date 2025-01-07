@@ -1,5 +1,6 @@
 package ru.vsu.forum.features.profile.view
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,7 @@ class EditProfileViewModel : ViewModel() {
     val name = MutableLiveData<String?>(null)
     val email: LiveData<String?> = _email
     val description = MutableLiveData<String?>(null)
+    val avatar = MutableLiveData<Bitmap?>(null)
 
     fun setProfile(profile: User?){
         _id = profile?.id
