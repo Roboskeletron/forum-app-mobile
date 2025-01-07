@@ -13,7 +13,9 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.vsu.forum.databinding.FragmentEditProfileBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
+import ru.vsu.forum.features.common.domain.ImageService
 import ru.vsu.forum.features.profile.data.UserRepository
+import ru.vsu.forum.R
 import kotlin.text.isNullOrEmpty
 import kotlin.toString
 
@@ -23,6 +25,7 @@ class EditProfileFragment : Fragment() {
     private val viewModel: EditProfileViewModel by viewModel()
     private val userRepository: UserRepository by inject()
     private val userProvider: UserProvider by inject()
+    private val imageService = ImageService(userRepository)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,8 +59,23 @@ class EditProfileFragment : Fragment() {
             }
         }
 
+        imageService.avatar.observe(viewLifecycleOwner) {
+            if (it == null) {
+                binding.profilePictureView.setImageResource(R.drawable.ic_avatar_placeholder)
+            }
+            else {
+                binding.profilePictureView.setImageBitmap(it)
+            }
+        }
+
         userProvider.user.observe(viewLifecycleOwner) {
             viewModel.setProfile(it)
+
+            it?.also {
+                lifecycleScope.launch {
+                    imageService.fetchAvatar(it.id)
+                }
+            }
 
             if (it == null) {
                 lifecycleScope.launch {

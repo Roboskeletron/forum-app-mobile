@@ -39,11 +39,13 @@
                 android:textAppearance="?attr/textAppearanceSubtitle1" />
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/topic_info_author_avatar"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginVertical="@dimen/activity_vertical_margin"
                 android:src="@drawable/ic_avatar_placeholder"
+                android:scaleType="fitXY"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
             <com.google.android.material.textview.MaterialTextView

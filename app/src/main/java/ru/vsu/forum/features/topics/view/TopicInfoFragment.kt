@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import ru.vsu.forum.databinding.FragmentTopicInfoBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
+import ru.vsu.forum.features.common.domain.ImageService
 import ru.vsu.forum.features.profile.data.UserRepository
 import ru.vsu.forum.features.topics.data.TopicRepository
 import java.util.UUID
@@ -26,6 +27,7 @@ class TopicInfoFragment : Fragment() {
     private val topicRepository: TopicRepository by inject()
     private val userRepository: UserRepository by inject()
     private val userProvider: UserProvider by inject()
+    private val imageService = ImageService(userRepository)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +43,12 @@ class TopicInfoFragment : Fragment() {
         binding.topicInfoEditFloatingButton.setOnClickListener {
             val action = TopicInfoFragmentDirections.actionTopicInfoFragmentToEditTopicFragment(args.topicId)
             findNavController().navigate(action)
+        }
+
+        imageService.avatar.observe(viewLifecycleOwner) {
+            if (it != null) {
+                binding.topicInfoAuthorAvatar.setImageBitmap(it)
+            }
         }
 
         lifecycleScope.launch {
@@ -59,6 +67,8 @@ class TopicInfoFragment : Fragment() {
                 findNavController().navigateUp()
                 return@launch
             }
+
+            imageService.fetchAvatar(author.id)
 
             viewModel.topic.value = topic
             viewModel.author.value = author
