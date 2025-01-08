@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import ru.vsu.forum.databinding.MessageItemBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
 import ru.vsu.forum.features.common.domain.ImageService
+import ru.vsu.forum.features.messages.data.CommentRepository
 import ru.vsu.forum.features.messages.data.MessageRepository
 import ru.vsu.forum.features.messages.models.Author
 import ru.vsu.forum.features.messages.models.Message
@@ -23,7 +24,8 @@ class MessageAdapter(
     val fragment: Fragment,
     val userProvider: UserProvider,
     val messageRepository: MessageRepository,
-    val userRepository: UserRepository
+    val userRepository: UserRepository,
+    val commentRepository: CommentRepository
 ) : PagingDataAdapter<Message, MessageAdapter.MessageViewHolder>(MessageDiffCallback()) {
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 
@@ -92,8 +94,13 @@ class MessageAdapter(
             }
 
             binding.commentButton.setOnClickListener {
-                val direction = MessagesFragmentDirections.actionNavigationTopicToCommentListDialogFragment(message.id.toString())
-                fragment.findNavController().navigate(direction)
+                val commentFragment = CommentListDialogFragment(
+                    message.id,
+                    userProvider,
+                    userRepository,
+                    commentRepository
+                )
+                commentFragment.show(fragment.requireActivity().supportFragmentManager, "Comments")
             }
 
             fetchAuthorAvatar(message.author)

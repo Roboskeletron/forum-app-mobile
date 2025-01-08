@@ -1,6 +1,7 @@
 package ru.vsu.forum.features.messages.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.MenuInflater
@@ -8,30 +9,27 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
+import ru.vsu.forum.R
 import ru.vsu.forum.databinding.FragmentCommentListDialogBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
 import ru.vsu.forum.features.messages.data.CommentRepository
-import ru.vsu.forum.features.profile.data.UserRepository
-import ru.vsu.forum.R
 import ru.vsu.forum.features.messages.models.Comment
+import ru.vsu.forum.features.profile.data.UserRepository
 import java.util.UUID
 
-class CommentListDialogFragment : BottomSheetDialogFragment() {
+class CommentListDialogFragment(
+    val messageId: UUID,
+    val userProvider: UserProvider,
+    val userRepository: UserRepository,
+    val commentRepository: CommentRepository
+) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentCommentListDialogBinding
     private lateinit var commentAdapter: CommentAdapter
-    private val navArgs: CommentListDialogFragmentArgs by navArgs()
-    private val viewModel: CommentListDialogViewModel by viewModel { parametersOf(UUID.fromString(navArgs.messageId)) }
-    private val userProvider: UserProvider by inject()
-    private val userRepository: UserRepository by inject()
-    private val commentRepository: CommentRepository by inject()
+    private val viewModel = CommentListDialogViewModel(commentRepository, messageId)
 
     private var sendCommentStrategy: suspend () -> Unit = {
         commentRepository.sendComment(viewModel.messageId, viewModel.comment.value!!)
@@ -65,12 +63,12 @@ class CommentListDialogFragment : BottomSheetDialogFragment() {
 
             lifecycleScope.launch {
                 sendCommentStrategy()
+                binding.messagesTextInput.text?.clear()
+                viewModel.refreshComments()
                 viewModel.commentsFlow.collectLatest {
                     commentAdapter.submitData(it)
                 }
             }
-
-            binding.messagesTextInput.text?.clear()
 
             sendCommentStrategy = {
                 commentRepository.sendComment(viewModel.messageId, viewModel.comment.value!!)
@@ -88,6 +86,13 @@ class CommentListDialogFragment : BottomSheetDialogFragment() {
         super.onCreateContextMenu(menu, v, menuInfo)
         val inflater: MenuInflater = MenuInflater(v.context)
         inflater.inflate(R.menu.context_menu, menu)
+
+        menu.findItem(R.id.action_edit)?.setOnMenuItemClickListener {
+            onContextItemSelected(it)
+        }
+        menu.findItem(R.id.action_delete)?.setOnMenuItemClickListener {
+            onContextItemSelected(it)
+        }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -119,6 +124,10 @@ class CommentListDialogFragment : BottomSheetDialogFragment() {
     private fun deleteComment(comment: Comment) {
         lifecycleScope.launch {
             commentRepository.deleteComment(comment.id)
+            viewModel.refreshComments()
+            viewModel.commentsFlow.collectLatest {
+                commentAdapter.submitData(it)
+            }
         }
     }
 }

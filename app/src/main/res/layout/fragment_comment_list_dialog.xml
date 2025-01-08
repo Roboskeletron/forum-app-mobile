@@ -13,16 +13,29 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:minHeight="500dp"
         android:paddingTop="@dimen/list_item_spacing_half"
         android:paddingBottom="@dimen/list_item_spacing_half">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/comment_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:text="Comments"
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/comments_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="2dp"
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toTopOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@id/comment_title"
             app:layout_constraintBottom_toTopOf="@id/comments_text_input_layout"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -33,7 +46,6 @@
             app:endIconDrawable="@drawable/ic_send"
             app:endIconMode="custom"
             app:endIconScaleType="centerInside"
-            app:layout_constraintTop_toBottomOf="@id/comments_recycler_view"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText

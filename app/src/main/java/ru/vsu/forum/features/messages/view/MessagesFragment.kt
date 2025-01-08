@@ -22,6 +22,7 @@ import org.koin.core.parameter.parametersOf
 import ru.vsu.forum.R
 import ru.vsu.forum.databinding.FragmentMessagesBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
+import ru.vsu.forum.features.messages.data.CommentRepository
 import ru.vsu.forum.features.messages.data.MessageRepository
 import ru.vsu.forum.features.messages.models.Message
 import ru.vsu.forum.features.profile.data.UserRepository
@@ -34,13 +35,20 @@ class MessagesFragment : Fragment() {
 
     private val args: MessagesFragmentArgs by navArgs()
 
-    private val viewModel: MessagesViewModel by viewModel { parametersOf(UUID.fromString(args.topicId), args.topicTitle) }
+    private val viewModel: MessagesViewModel by viewModel {
+        parametersOf(
+            UUID.fromString(args.topicId),
+            args.topicTitle
+        )
+    }
 
     private val messageRepository: MessageRepository by inject()
 
     private val userProvider: UserProvider by inject()
 
     private val userRepository: UserRepository by inject()
+
+    private val commentRepository: CommentRepository by inject()
 
     private lateinit var messageAdapter: MessageAdapter
 
@@ -58,7 +66,7 @@ class MessagesFragment : Fragment() {
         val toolbar = binding.messagesToolBar
         toolbar.setupWithNavController(findNavController())
         toolbar.setOnMenuItemClickListener {
-            when (it.itemId){
+            when (it.itemId) {
                 R.id.action_profile -> {
                     findNavController().navigate(MessagesFragmentDirections.actionNavigationTopicToNavigationProfile())
                     true
@@ -68,7 +76,8 @@ class MessagesFragment : Fragment() {
             }
         }
         toolbar.setOnClickListener {
-            val action = MessagesFragmentDirections.actionNavigationTopicToTopicInfoFragment(viewModel.topicId.toString())
+            val action =
+                MessagesFragmentDirections.actionNavigationTopicToTopicInfoFragment(viewModel.topicId.toString())
             findNavController().navigate(action)
         }
 
@@ -80,7 +89,8 @@ class MessagesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        messageAdapter = MessageAdapter(this, userProvider, messageRepository, userRepository)
+        messageAdapter =
+            MessageAdapter(this, userProvider, messageRepository, userRepository, commentRepository)
         binding.messagesRecyclerView.apply {
             adapter = messageAdapter
         }
@@ -92,7 +102,7 @@ class MessagesFragment : Fragment() {
         }
     }
 
-    private fun setupMessageSending(){
+    private fun setupMessageSending() {
         binding.messagesTextInputLayout.setEndIconOnClickListener {
             val messageText = viewModel.message.value
 
@@ -145,7 +155,8 @@ class MessagesFragment : Fragment() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        val selectedMessage = messageAdapter.getSelectedMessage() ?: return super.onContextItemSelected(item)
+        val selectedMessage =
+            messageAdapter.getSelectedMessage() ?: return super.onContextItemSelected(item)
 
         return when (item.itemId) {
             R.id.action_edit -> {
