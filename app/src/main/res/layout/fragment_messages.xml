@@ -36,8 +36,6 @@
                 app:endIconDrawable="@drawable/ic_send"
                 app:endIconMode="custom"
                 app:endIconScaleType="centerInside"
-                app:startIconDrawable="@drawable/ic_send"
-                app:startIconScaleType="centerInside"
                 app:layout_constraintTop_toBottomOf="@id/messages_recycler_view"
                 app:layout_constraintBottom_toBottomOf="parent">
 

@@ -50,6 +50,7 @@ dependencies {
     implementation("androidx.paging:paging-runtime:3.1.1")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation(libs.androidx.recyclerview)
 
     ksp(libs.androidx.room.compiler)
 
