@@ -51,13 +51,13 @@ interface ForumService {
     ): Response<UUID>
 
     @GET("Users/profile")
-    suspend fun getProfile() : Response<User>
+    suspend fun getProfile(): Response<User>
 
     @POST("Topics")
-    suspend fun createTopic(@Body createTopicModel: CreateTopicModel) : Response<UUID?>
+    suspend fun createTopic(@Body createTopicModel: CreateTopicModel): Response<UUID?>
 
     @GET("Topics/exists-by-title")
-    suspend fun topicExistsByTitle(@Query("title") title: String) : Response<Boolean>
+    suspend fun topicExistsByTitle(@Query("title") title: String): Response<Boolean>
 
     @Multipart
     @PUT("Users/profile")
@@ -65,44 +65,53 @@ interface ForumService {
         @Part("Name") name: RequestBody,
         @Part("Description") description: RequestBody?,
         @Part avatar: MultipartBody.Part?
-    ) : Response<Unit>
+    ): Response<Unit>
 
     @GET("Users/profile/{id}")
-    suspend fun getUserById(@Path("id") id: UUID) : Response<User?>
+    suspend fun getUserById(@Path("id") id: UUID): Response<User?>
 
     @GET("Topics/{id}")
-    suspend fun getTopicById(@Path("id") id: UUID) : Response<Topic?>
+    suspend fun getTopicById(@Path("id") id: UUID): Response<Topic?>
 
     @PUT("Topics/{id}")
-    suspend fun updateTopic(@Path("id") id: UUID, @Body updateTopicModel: UpdateTopicModel) : Response<Unit>
+    suspend fun updateTopic(
+        @Path("id") id: UUID,
+        @Body updateTopicModel: UpdateTopicModel
+    ): Response<Unit>
 
     @GET("Users/exists-by-email")
-    suspend fun userExistsByEmail(@Query("email") email: String) : Response<Boolean>
+    suspend fun userExistsByEmail(@Query("email") email: String): Response<Boolean>
 
     @GET("Users/exists-by-username")
-    suspend fun userExistsByUsername(@Query("username") username: String) : Response<Boolean>
+    suspend fun userExistsByUsername(@Query("username") username: String): Response<Boolean>
 
     @POST("Users")
-    suspend fun registerUser(@Body registerUserModel: RegisterUserModel) : Response<Unit>
+    suspend fun registerUser(@Body registerUserModel: RegisterUserModel): Response<Unit>
 
     @PATCH("Messages/{id}")
-    suspend fun updateMessage(@Path("id") id: UUID, @Body updateMessageModel: UpdateMessageModel) : Response<Unit>
+    suspend fun updateMessage(
+        @Path("id") id: UUID,
+        @Body updateMessageModel: UpdateMessageModel
+    ): Response<Unit>
 
     @DELETE("Messages/{id}")
     suspend fun deleteMessage(@Path("id") id: UUID)
 
     @PATCH("Messages/{id}/like")
-    suspend fun likeMessage(@Path("id") id: UUID) : Response<Message>
+    suspend fun likeMessage(@Path("id") id: UUID): Response<Message>
 
     @PATCH("Messages/{id}/dislike")
-    suspend fun dislikeMessage(@Path("id") id: UUID) : Response<Message>
+    suspend fun dislikeMessage(@Path("id") id: UUID): Response<Message>
 
     @GET("Users/{id}/avatar")
-    suspend fun getUserAvatar(@Path("id") id: UUID) : Response<ResponseBody>
+    suspend fun getUserAvatar(@Path("id") id: UUID): Response<ResponseBody>
 
     @PATCH("Topics/{id}/like")
-    suspend fun likeTopic(@Path("id") id: UUID) : Response<Topic>
+    suspend fun likeTopic(@Path("id") id: UUID): Response<Topic>
 
     @PATCH("Topics/{id}/dislike")
-    suspend fun dislikeTopic(@Path("id") id: UUID) : Response<Topic>
+    suspend fun dislikeTopic(@Path("id") id: UUID): Response<Topic>
+
+    @DELETE("Topics/{id}")
+    suspend fun deleteTopic(@Path("id") id: UUID): Response<Unit>
 }

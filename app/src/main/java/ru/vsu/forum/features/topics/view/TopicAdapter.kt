@@ -18,6 +18,7 @@ class TopicAdapter(
     val userProvider: UserProvider,
     val topicRepository: TopicRepository
 ) : PagingDataAdapter<Topic, TopicAdapter.TopicViewHolder>(TopicDiffCallback()) {
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopicViewHolder {
         val binding = TopicItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,6 +30,15 @@ class TopicAdapter(
         if (topic != null) {
             holder.bind(topic)
         }
+
+        holder.itemView.setOnLongClickListener {
+            selectedPosition = holder.bindingAdapterPosition
+            false
+        }
+    }
+
+    fun getSelectedTopic(): Topic? {
+        return getItem(selectedPosition)
     }
 
     inner class TopicViewHolder(private val binding: TopicItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -36,11 +46,11 @@ class TopicAdapter(
             binding.topic = topic
 
             userProvider.user.observe(fragment.viewLifecycleOwner) {
-//                if (it?.id == message.author.id) {
-//                    fragment.registerForContextMenu(binding.root)
-//                } else {
-//                    fragment.unregisterForContextMenu(binding.root)
-//                }
+                if (it?.id == topic.authorId) {
+                    fragment.registerForContextMenu(binding.root)
+                } else {
+                    fragment.unregisterForContextMenu(binding.root)
+                }
 
                 binding.likeButton.isEnabled = it != null
             }

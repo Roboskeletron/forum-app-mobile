@@ -1,8 +1,11 @@
 package ru.vsu.forum.features.topics.view
 
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
@@ -93,5 +96,46 @@ class TopicsFragment : Fragment() {
                 return true
             }
         })
+    }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val inflater: MenuInflater = MenuInflater(v.context)
+        inflater.inflate(R.menu.context_menu, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val topic = topicAdapter.getSelectedTopic() ?: return super.onContextItemSelected(item)
+        return when (item.itemId) {
+            R.id.action_edit -> {
+                editTopic(topic)
+                true
+            }
+
+            R.id.action_delete -> {
+                deleteTopic(topic)
+                true
+            }
+
+            else -> super.onContextItemSelected(item)
+        }
+    }
+
+    fun editTopic(topic: Topic) {
+        val action = TopicsFragmentDirections.actionNavigationHomeToEditTopicFragment(topic.id.toString())
+        findNavController().navigate(action)
+    }
+
+    private fun deleteTopic(topic: Topic) {
+        lifecycleScope.launch {
+            topicRepository.deleteTopic(topic.id)
+            viewModel.topicsFlow.collectLatest {
+                    pagedData -> topicAdapter.submitData(pagedData)
+            }
+        }
     }
 }

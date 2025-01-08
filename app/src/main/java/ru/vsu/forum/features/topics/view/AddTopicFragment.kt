@@ -56,7 +56,7 @@ class AddTopicFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            topicRepository.createTopic(viewModel.title.toString(), viewModel.description)
+            topicRepository.createTopic(viewModel.title.value!!, viewModel.description)
             findNavController().navigateUp()
         }
     }

@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_profile"
             app:destination="@id/navigation_profile" />
+        <action
+            android:id="@+id/action_navigation_home_to_editTopicFragment"
+            app:destination="@id/editTopicFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile"

@@ -141,7 +141,7 @@ class MessagesFragment : Fragment() {
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
         val inflater: MenuInflater = MenuInflater(v.context)
-        inflater.inflate(R.menu.message_context_menu, menu)
+        inflater.inflate(R.menu.context_menu, menu)
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
