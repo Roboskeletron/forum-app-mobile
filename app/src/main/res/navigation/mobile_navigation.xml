@@ -101,8 +101,8 @@
     <fragment
         android:id="@+id/viewProfileFragment"
         android:name="ru.vsu.forum.features.profile.view.ViewProfileFragment"
-        android:label="fragment_view_profile"
-        tools:layout="@layout/fragment_view_profile" >
+        android:label="View profile"
+        tools:layout="@layout/fragment_view_profile">
         <argument
             android:name="userId"
             app:argType="string" />
