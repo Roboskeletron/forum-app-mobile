@@ -29,9 +29,7 @@
         tools:layout="@layout/fragment_edit_profile" >
         <action
             android:id="@+id/action_navigation_profile_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/navigation_profile"
-            app:popUpToInclusive="true" />
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_topic"

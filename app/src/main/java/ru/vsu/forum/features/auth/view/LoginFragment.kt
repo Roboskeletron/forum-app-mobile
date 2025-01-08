@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.vsu.forum.databinding.FragmentLoginBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
+import ru.vsu.forum.R
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
@@ -28,6 +30,10 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.loginToolbar.setupWithNavController(findNavController())
+
+        binding.loginToolbar.setNavigationOnClickListener {
+            findNavController().popBackStack(R.id.navigation_profile, inclusive =  true)
+        }
 
         binding.loginLoginButton.setOnClickListener {
             login()
