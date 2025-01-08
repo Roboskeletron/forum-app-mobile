@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -12,9 +11,9 @@ import androidx.navigation.ui.setupWithNavController
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.vsu.forum.R
 import ru.vsu.forum.databinding.FragmentLoginBinding
 import ru.vsu.forum.features.auth.domain.UserProvider
-import ru.vsu.forum.R
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding

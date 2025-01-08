@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
-            name="message"
-            type="ru.vsu.forum.features.messages.models.Message" />
+            name="comment"
+            type="ru.vsu.forum.features.messages.models.Comment" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -29,8 +28,8 @@
                 android:id="@+id/avatar_image_view"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:scaleType="fitXY"
                 android:src="@drawable/ic_avatar_placeholder"
+                android:scaleType="fitXY"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -47,57 +46,29 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/author_name"
+                        android:textAppearance="?attr/textAppearanceTitleLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{message.author.name}"
-                        android:textAppearance="?attr/textAppearanceTitleLarge" />
+                        android:text="@{comment.author.name}" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:textAppearance="?attr/textAppearanceBodySmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:text="@{message.updatedAt != null ? message.updatedAt.toString() : message.createdAt.toString()}"
-                        android:textAppearance="?attr/textAppearanceBodySmall" />
+                        android:text="@{comment.updatedAt != null ? comment.updatedAt.toString() : comment.createdAt.toString()}" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
-                    android:text="@{message.text}"
-                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+                    android:text="@{comment.text}" />
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp">
-
-                    <com.google.android.material.button.MaterialButtonToggleGroup
-                        android:id="@+id/like_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <com.google.android.material.button.MaterialButton
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="@{!message.canLike}"
-                            android:text="@{String.valueOf(message.likeCount)}"
-                            app:icon="@drawable/ic_heart" />
-
-                    </com.google.android.material.button.MaterialButtonToggleGroup>
-
-                    <com.google.android.material.button.MaterialButton
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="@{String.valueOf(message.commentCount)}"
-                        app:icon="@drawable/ic_comment" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
+
     </com.google.android.material.card.MaterialCardView>
 </layout>
