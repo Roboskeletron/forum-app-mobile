@@ -20,7 +20,7 @@ class CommentPagingSource(
         return LoadResult.Page(
             data = comments,
             prevKey = if (page == 1) null else page - 1,
-            nextKey = (page + 1).takeIf { comments.size < params.loadSize }
+            nextKey = (page + 1).takeUnless { comments.size < params.loadSize }
         )
     }
 }

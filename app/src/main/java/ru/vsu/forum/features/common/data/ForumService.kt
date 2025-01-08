@@ -16,8 +16,11 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.vsu.forum.features.messages.models.Message
 import ru.vsu.forum.features.common.models.PagedList
+import ru.vsu.forum.features.messages.models.Comment
+import ru.vsu.forum.features.messages.models.SendCommentModel
 import ru.vsu.forum.features.topics.models.UpdateTopicModel
 import ru.vsu.forum.features.messages.models.SendMessageModel
+import ru.vsu.forum.features.messages.models.UpdateCommentModel
 import ru.vsu.forum.features.messages.models.UpdateMessageModel
 import ru.vsu.forum.features.topics.models.CreateTopicModel
 import ru.vsu.forum.features.topics.models.Topic
@@ -114,4 +117,26 @@ interface ForumService {
 
     @DELETE("Topics/{id}")
     suspend fun deleteTopic(@Path("id") id: UUID): Response<Unit>
+
+    @GET("Messages/{id}/comments")
+    suspend fun getMessageComments(
+        @Path("id") id: UUID,
+        @Query("PageNumber") pageIndex: Int,
+        @Query("PageSize") pageSize: Int
+    ) : Response<PagedList<Comment>>
+
+    @POST("Messages/{id}/comment")
+    suspend fun sendComment(
+        @Path("id") id: UUID,
+        @Body sendCommentModel: SendCommentModel
+    ): Response<UUID>
+
+    @PATCH("Comments/{id}")
+    suspend fun updateComment(
+        @Path("id") id: UUID,
+        @Body updateCommentModel: UpdateCommentModel
+    ): Response<Unit>
+
+    @DELETE("Comments/{id}")
+    suspend fun deleteComment(@Path("id") id: UUID): Response<Unit>
 }

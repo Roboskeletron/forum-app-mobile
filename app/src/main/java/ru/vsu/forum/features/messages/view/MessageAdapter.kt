@@ -91,6 +91,11 @@ class MessageAdapter(
                 fragment.findNavController().navigate(direction)
             }
 
+            binding.commentButton.setOnClickListener {
+                val direction = MessagesFragmentDirections.actionNavigationTopicToCommentListDialogFragment(message.id.toString())
+                fragment.findNavController().navigate(direction)
+            }
+
             fetchAuthorAvatar(message.author)
         }
 

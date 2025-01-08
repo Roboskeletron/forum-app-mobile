@@ -5,6 +5,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import ru.vsu.forum.features.auth.view.LoginViewModel
 import ru.vsu.forum.features.auth.view.RegisterViewModel
+import ru.vsu.forum.features.messages.view.CommentListDialogViewModel
 import ru.vsu.forum.features.messages.view.MessagesViewModel
 import ru.vsu.forum.features.profile.view.EditProfileViewModel
 import ru.vsu.forum.features.topics.view.AddTopicViewModel
@@ -20,4 +21,5 @@ val appModule = module {
     viewModelOf(::TopicInfoViewModel)
     viewModelOf(::LoginViewModel)
     viewModelOf(::RegisterViewModel)
+    viewModel { (messageId: UUID) -> CommentListDialogViewModel(get(), messageId) }
 }
