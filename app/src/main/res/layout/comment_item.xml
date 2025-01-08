@@ -14,6 +14,7 @@
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
+        app:cardBackgroundColor="?attr/colorSurfaceContainer"
         app:cardCornerRadius="0dp"
         app:cardElevation="0dp"
         app:strokeColor="?attr/colorOutline"

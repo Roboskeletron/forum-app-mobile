@@ -1,5 +1,6 @@
 package ru.vsu.forum.features.messages.view
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextMenu
@@ -24,7 +25,8 @@ class CommentListDialogFragment(
     val messageId: UUID,
     val userProvider: UserProvider,
     val userRepository: UserRepository,
-    val commentRepository: CommentRepository
+    val commentRepository: CommentRepository,
+    val messagesFragment: MessagesFragment
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentCommentListDialogBinding
@@ -110,6 +112,20 @@ class CommentListDialogFragment(
             }
 
             else -> super.onContextItemSelected(item)
+        }
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        messagesFragment.lifecycleScope.launch {
+            messagesFragment.refreshMessages()
+        }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        messagesFragment.lifecycleScope.launch {
+            messagesFragment.refreshMessages()
         }
     }
 

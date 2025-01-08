@@ -96,9 +96,7 @@ class MessagesFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            viewModel.messagesFlow.collectLatest { pagingData ->
-                messageAdapter.submitData(pagingData)
-            }
+            refreshMessages()
         }
     }
 
@@ -111,9 +109,7 @@ class MessagesFragment : Fragment() {
             lifecycleScope.launch {
                 sendMessageStrategy()
                 binding.messagesTextInput.text?.clear()
-                viewModel.messagesFlow.collectLatest { pagingData ->
-                    messageAdapter.submitData(pagingData)
-                }
+                refreshMessages()
             }
 
             sendMessageStrategy = {
@@ -184,9 +180,13 @@ class MessagesFragment : Fragment() {
     private fun deleteMessage(message: Message) {
         lifecycleScope.launch {
             messageRepository.deleteMessage(message.id)
-            viewModel.messagesFlow.collectLatest { pagingData ->
-                messageAdapter.submitData(pagingData)
-            }
+            refreshMessages()
+        }
+    }
+
+    suspend fun refreshMessages() {
+        viewModel.messagesFlow.collectLatest { pagingData ->
+            messageAdapter.submitData(pagingData)
         }
     }
 }

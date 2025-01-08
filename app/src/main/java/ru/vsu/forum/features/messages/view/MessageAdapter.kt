@@ -98,7 +98,8 @@ class MessageAdapter(
                     message.id,
                     userProvider,
                     userRepository,
-                    commentRepository
+                    commentRepository,
+                    fragment as MessagesFragment
                 )
                 commentFragment.show(fragment.requireActivity().supportFragmentManager, "Comments")
             }
