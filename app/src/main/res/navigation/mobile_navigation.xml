@@ -53,9 +53,6 @@
         <action
             android:id="@+id/action_navigation_topic_to_viewProfileFragment"
             app:destination="@id/viewProfileFragment" />
-        <action
-            android:id="@+id/action_navigation_topic_to_commentListDialogFragment"
-            app:destination="@id/commentListDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/addTopicFragment"
@@ -108,21 +105,6 @@
         tools:layout="@layout/fragment_view_profile" >
         <argument
             android:name="userId"
-            app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/commentListDialogFragment"
-        android:name="ru.vsu.forum.features.messages.view.CommentListDialogFragment"
-        android:label="Comments"
-        tools:layout="@layout/fragment_comment_list_dialog" >
-        <action
-            android:id="@+id/action_commentListDialogFragment_to_viewProfileFragment"
-            app:destination="@id/viewProfileFragment" />
-        <action
-            android:id="@+id/action_commentListDialogFragment_to_navigation_profile"
-            app:destination="@id/navigation_profile" />
-        <argument
-            android:name="messageId"
             app:argType="string" />
     </fragment>
 </navigation>

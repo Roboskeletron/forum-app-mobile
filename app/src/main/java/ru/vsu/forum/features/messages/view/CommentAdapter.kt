@@ -73,12 +73,14 @@ class CommentAdapter(
                 val direction = getViewProfileNavDirection(comment.author.id)
 
                 fragment.findNavController().navigate(direction)
+                fragment.dismiss()
             }
 
             binding.authorName.setOnClickListener {
                 val direction = getViewProfileNavDirection(comment.author.id)
 
                 fragment.findNavController().navigate(direction)
+                fragment.dismiss()
             }
 
             fetchAuthorAvatar(comment.author)
@@ -98,8 +100,8 @@ class CommentAdapter(
 
         private fun getViewProfileNavDirection(userId: UUID) : NavDirections =
             if (userId == userProvider.user.value?.id)
-                CommentListDialogFragmentDirections.actionCommentListDialogFragmentToNavigationProfile()
-            else CommentListDialogFragmentDirections.actionCommentListDialogFragmentToViewProfileFragment(userId.toString())
+                MessagesFragmentDirections.actionNavigationTopicToNavigationProfile()
+            else MessagesFragmentDirections.actionNavigationTopicToViewProfileFragment(userId.toString())
     }
 
     class CommentDiffCallback : DiffUtil.ItemCallback<Comment>() {
